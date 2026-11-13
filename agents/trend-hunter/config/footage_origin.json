@@ -1,0 +1,60 @@
+{
+  "_task": "CF-0297",
+  "_what": "Where a footage candidate comes from: the channels whose upload IS the work's own footage (official), and the words in a title that say an upload is somebody's video about the work rather than the work (unofficial). Lists live here, not in scripts/footage_origin.py, because they are appended to as batches show new channels and new kinds of fan upload - that is config work, not code work.",
+  "_read_by": "agents/trend-hunter/scripts/footage_origin.py",
+  "_split": "CF-0627 (CF-0561, 2026-10-07): the official channels are the channel's own list - `<root>/channels/<id>/footage-origin.json`, read through the root's shared/channel_data.py by `footage_origin.load_config(channel)`; they moved there unchanged (example-film's, root release/2.3 e693d3e) and are not kept here. What stays here is the rule every channel shares: the `stop_words` that say an upload is somebody's video about the work. `_rule` and `_ids` below describe how both halves are read; the `channels[]` they speak of are in the channel's list.",
+  "_rule": "A channel on official_channels is official and is never sieved by stop_words - the user's decision of 2026-09-20 is that the official trailer is the most honest source there is, and no word in its title may cost it. Otherwise a stop_words hit makes the upload unofficial and it is dropped from the pool with reason_code 'unofficial_source'. Everything else is unknown: offered, but after every official upload of its own nature.",
+  "_ids": "CF-0361 (2026-09-24). Officiality is decided by the channel's id, not its name: every entry carries `channels[]` - the YouTube channel ids that ARE this studio or network, each with the call it was resolved by (a `videos.list` on a real upload of a real batch, or `channels.list forHandle`, checked by the title it answered - `@DC` answered 'LOl Rekt' and `@Example Pictures` answered 'lg', and neither went in). An upload that carries `channel_id` is official only when that id is listed here; `pattern` is the fallback for a record without an id (every batch before CF-0361), matched on whole tokens of the channel name (CF-0347: the bare substring 'dc' made every '...Podcast' channel official). `owners` are the names a topic's `title_ref.rights_holder` / `network` is matched against to choose whose upload playlist `fetch_channel_feeds.py` reads deep (default: the pattern itself); `general: true` marks a licensed distributor read for every topic. A new regional channel of a listed studio is added here by id, with the upload it was read off.",
+  "_discipline": "Every stop word carries `seen_in` - a real upload out of a real batch pool that the word was read off. A word nobody can point at in the data does not go in. Every pattern was replayed over the 46 videos that have ever been fetched as a canonical source (pipeline/*/*/01b-footage-index.json, six batches): the hits are the five this task is about plus eTvRCugVK1Q, and nothing else. The command is in the task file's `## Полный прогон`.",
+
+  "stop_words": [
+    {
+      "code": "fan_made",
+      "pattern": "fan\\s*-?\\s*made|fanmade|\\bfan[\\s-]?(trailer|film|edit|cam|art)\\b",
+      "why": "an upload that says it is fan made is not footage of the work at any point - it is renders, stills and other films cut together",
+      "seen_in": {"video_id": "WQEC_tH0UP8", "channel_title": "Luucy Ai", "title": "SILENT TIDE 2: AFTERMATH | Official-Style Fanmade Concept Trailer | Brad Pitt | 2027", "batch": "2026-09-19T0116Z"}
+    },
+    {
+      "code": "concept",
+      "pattern": "\\bconcept\\b",
+      "why": "a concept trailer is a trailer for a film that does not exist; the shots in it belong to other films",
+      "seen_in": {"video_id": "WQEC_tH0UP8", "channel_title": "Luucy Ai", "title": "SILENT TIDE 2: AFTERMATH | Official-Style Fanmade Concept Trailer | Brad Pitt | 2027", "batch": "2026-09-19T0116Z"}
+    },
+    {
+      "code": "gameplay",
+      "pattern": "\\w*gameplay\\b|\\w*gaming\\b|walkthrough|speedrun|let'?s\\s+play",
+      "why": "screen capture of a game, not of the film - the left side of the word is open because the hashtag that gave it away was #VRGaming",
+      "seen_in": {"video_id": "PEiDNOQ_0ms", "channel_title": "Manuel Over Ride (M.O.R.)", "title": "World War Lay-Z: How to Quiet Quit the Zombie Apocalypse    #VRGaming", "batch": "2026-09-19T0116Z"}
+    },
+    {
+      "code": "fan_edit",
+      "pattern": "\\bedits?\\b|\\beditz\\b|\\bfancam\\b|\\bamv\\b",
+      "why": "an 'edit' is the genre: somebody's montage over music, usually with the work's shots slowed, mirrored, colour-graded and captioned",
+      "seen_in": {"video_id": "GGC0lfeoWls", "channel_title": "Hypersphere Edits", "title": "Rennick Schools FBI One Last Time | Rennick Season 4 Finale", "batch": "2026-09-19T0116Z"}
+    },
+    {
+      "code": "reaction",
+      "pattern": "\\breaction\\b|\\breacts\\b|\\breacting\\b",
+      "why": "a face in a corner over somebody else's trailer; the frame is never the work's own frame",
+      "seen_in": {"video_id": "LY0VP-t2mfo", "channel_title": "DisfunktionalTV", "title": "Pine Park Is BACK! | “South American Biker Gangs” S29E1 Reaction", "batch": "2026-09-18T1058Z"}
+    },
+    {
+      "code": "parody",
+      "pattern": "\\bparody\\b|\\bspoof\\b|\\bmemes?\\b|\\bмем\\b",
+      "why": "a parody re-shoots or re-captions the work; the shots are not the work's",
+      "seen_in": {"video_id": "eUSdckIhnkE", "channel_title": "au4ever07", "title": "Контра это южный парк #мем", "batch": "2026-09-19T0116Z"}
+    },
+    {
+      "code": "shortform_repost",
+      "pattern": "#fyp\\b|#viral\\b|#foryou\\b|\\btiktok\\b",
+      "why": "the reach hashtags of a short-form repost account. Deliberately NOT #shorts: #shorts only says the upload is vertical, and four honest candidates of the 0116Z pools carry it (mtZjyyslZ_s, WA_F5QhzYAE, 3ikg6NlyOCA, _hm2lyQF45g)",
+      "seen_in": {"video_id": "QJ1WSiMUVFA", "channel_title": "Draco Owns Me <3", "title": "Hp is not just a movie it was an era✨ #wrenhollow#nostalgia#fyp #viral #sad #lexplore #shorts#", "batch": "2026-09-19T0116Z"}
+    },
+    {
+      "code": "podcast",
+      "pattern": "\\bpodcast\\b|\\bradio\\s+show\\b",
+      "why": "a podcast or radio show recording is talking heads; on Pine Park the indexer got one static frame out of 31.8 seconds of it",
+      "seen_in": {"video_id": "Cym8eElO6c0", "channel_title": "The Real Radio Show 247", "title": "Kimberly Brooks on The Simpsons, Pine Park & Psychonauts 🎙️", "batch": "2026-09-19T0116Z"}
+    }
+  ]
+}

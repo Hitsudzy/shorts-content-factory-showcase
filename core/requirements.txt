@@ -1,0 +1,20 @@
+# CC-0003: the root's own dependencies - the first ones it has. Until now the
+# root was stdlib-only and its suite ran on whatever python3 was typed (the
+# Pillow of test_meme_desk.py came from the user's site-packages). From here
+# the root has a .venv of its own, and tests/run_tests.py re-runs itself under
+# it (CF-0054):
+#
+#     python3 -m venv .venv && .venv/bin/python3 -m pip install -r requirements.txt
+#
+# A root worktree borrows the working copy's .venv (agents.lock.json -> links ->
+# root, `scripts/agents sync`). Pinned exactly: a bump is a commit.
+
+# the command center's API (api/, CC-0003)
+fastapi==0.128.8
+uvicorn==0.39.0
+# starlette's TestClient (the API's tests run in-process, no socket)
+httpx==0.28.1
+
+# already needed by the root suite before CC-0003 (tests/test_meme_desk.py,
+# scripts/meme_desk.py); it used to come from outside any declared environment
+Pillow==11.3.0

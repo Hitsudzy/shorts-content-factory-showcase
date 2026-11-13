@@ -1,0 +1,4 @@
+requests==2.34.2
+feedparser==6.0.14
+# CF-0661: the channel feeds' fallback (fetch_channel_feeds.py), the indexer's pin
+yt-dlp==2026.08.19

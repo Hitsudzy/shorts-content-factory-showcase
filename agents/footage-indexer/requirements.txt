@@ -1,0 +1,9 @@
+# Pinned to match the platform: Intel Mac's last torch wheel is 2.2.2, which
+# caps transformers at 4.44.2 and numpy below 2.
+torch==2.2.2
+transformers==4.44.2
+numpy<2
+pillow
+# [default] brings yt-dlp-ejs, the challenge solver a signed-in download needs
+# (fetch_footage.py, CF-0253 follow-up 2026-09-17); node must be on PATH.
+yt-dlp[default]

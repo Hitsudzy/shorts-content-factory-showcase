@@ -1,0 +1,86 @@
+{
+  "pattern_id": "explainer",
+  "display_name": "Explanation",
+  "summary": "One concrete fact the story does not carry, of any kind, explained straight through in a single line of reasoning.",
+
+  "baseline": {
+    "is_current_form": true,
+    "rhythm_id": "even",
+    "note": "This pattern is the form the factory already writes, transcribed into the schema rather than redesigned. It is the only pattern proven end-to-end to a finished mp4, which is why CF-0015 kept it: the other three can then ship one at a time without stopping production. On rhythm even it must stay behaviourally identical to pre-pattern output - tests/test_pattern_vocabulary.py pins that against a real batch. CF-0314 made the one exception to that sentence and named it: the floor of block_rate_per_minute is now an order, so a plan slower than the form is refused instead of shipped. On every video the baseline was measured over the output is unchanged; what the exception buys is that a slideshow stops being called an explainer."
+  },
+
+  "script_sections": ["hook", "scene_direction", "commentary", "payoff"],
+
+  "allowed_rhythms": ["even", "alternate"],
+
+  "writing_instruction": [
+    "This field is the whole of how to write this pattern. What it does not cover is not pattern-specific: the section contract, the commentary length band, and the write-for-the-ear rules are channel-level constraints and stay in the Content Researcher skill, because they are identical under all four patterns. Everything below is what makes a script *this* pattern rather than one of the other three.",
+    "The shape is one continuous explanation of one fact, not of one story. You retell just enough of the story to set the occasion, you state the one concrete fact the story does not carry - whatever its kind: how the scene was shot, what the film earned, who was cast first, what a person said on record - and you spend the rest of the script accounting for it: how it came about, why it matters, what it changes in the picture everybody has already seen. One unbroken line of reasoning, each beat handing off to the next. The topic is the occasion; the thing being explained is the fact (CF-0181: this is the pattern closest to reading a feed out loud, and the fact is what keeps it from being that). There is no enumeration, no 'three reasons', no two sides alternating as a structure - the story and the fact are the two ends of one line, not two halves of an axis; that shape is `contrast`. The value is in the connective tissue: a viewer should not be able to reorder your sentences without breaking them.",
+    "The hook names the specific fact, not the topic. 'That thirty seconds of corridor took eleven nights to shoot' or 'The studio's own test audience hated this ending' works because the fact is in it and the retelling can follow it. 'Wren Hollow just got a new professor... and it is not who anyone expected' does not work here: it names a surprise the reporting already carries, so it promises the story, and a hook that promises the story owes the story - the fact then arrives as an aside, which is the one thing this channel's contribution may not be (CF-0181). 'Here is what is happening with Wren Hollow' does not work at all.",
+    "The fact's beat opens the explanation, because in this pattern the fact is the premise everything else hangs from: the occasion in a sentence, then the fact, then what follows from it, in that order and in consecutive sentences, so that `script.production_fact.beat_text` is a verbatim substring of that block - it is a locator, and the on-screen line is drawn where it points (CF-0186; CF-0183 writes the field). Everything after the beat is the accounting for it - how it came about, why it matters, what it means for the picture the viewer has already seen. An explainer that reaches its fact in the last third has retold the story first and added the fact as an afterthought, which is the video this channel refuses to make.",
+    "The commentary introduces one new fact per beat and each fact has to be describable as a frame, because Video Editor resolves an anchor per beat. If a beat is pure abstraction - 'the industry is changing' - it will come back unresolved and the montage will have a hole in it. Say the thing that can be photographed.",
+    "When the story has a soft claim in it - a single-outlet report, a rumour - the explanation carries that honestly in its own wording ('reported', not 'confirmed') rather than in a footnote. That is part of the reasoning, not a disclaimer bolted on.",
+    "The payoff is the conclusion - why this fact matters, what it leaves in the picture the viewer has already seen. This pattern does not get to end on a new idea; the last beat answers the fact the hook named. Repeating the hook's words is not required: every video ends on the channel's end card, which breaks the replay loop in any case (the user's decision of 2026-09-28, CF-0424).",
+    "Do not steer the cadence. In this pattern the pace of the blocks and the hold length fall out of the writing - that is what the even rhythm means, and it is why the hold is declared emergent below and why nothing is drawn for the pace either. There is one floor under the pace and it is not a target to write towards: below 15.39 blocks a minute the montage is a slideshow and the plan is refused before the render (CF-0314), which in writing terms means a script whose beats are so few and so long that a whole minute of it holds fewer than about fifteen photographable facts. Write the facts; the pace follows them. The pace is the parameter rather than the number of blocks because the number is the pace multiplied by the length of the video, and the length is the channel's business, not this pattern's (CF-0310). On the alternate rhythm you do steer one thing: the scene direction has to name two visually distinguishable sets for the montage to move between, otherwise alternation has nothing to alternate.",
+    "CF-0689 (the user's decision of 12.10): on a channel whose footage-origin document has the `own_graphic` origin (ExampleTech), the picture may stand on the factory's own graphics entirely - drawn in Remotion from this script's facts and nothing else (a spec card, a comparison, a price and date, a benchmark with its «according to X» line, a timeline, a how-it-works diagram; shared/own_graphic.py `TEMPLATES`). Order each in the script's `graphics[]`, place it on its words with a `visual_anchors[]` entry that carries its `graphic_id`, and declare every value on it as a claim with `where: \"graphic:<graphic_id>\"` standing on a verbatim quote - a graphic carries no number, name or date the topic's text does not, and no words of its own. On a channel without that origin nothing here changes."
+  ],
+
+  "parameters": {
+    "block_rate_per_minute": {
+      "mode": "floor_drawn",
+      "min": 15.39,
+      "max": 47.88,
+      "envelope_evidence": {
+        "measured_over_batches": ["2026-08-30T2329Z", "2026-08-31T2155Z"],
+        "observed_min": 15.39,
+        "observed_max": 47.88,
+        "declared_by": "CF-0039",
+        "frozen_by": "CF-0195",
+        "note": "The fixed point the width guard measures against, in machine-readable form. It used to be prose in the note below, and the guard had nothing to read - so it compared the declared band against the *live* corpus, which is the corpus a regression has already joined. A corpus that sets its own tolerance grants exactly the widening needed to admit the video that broke it (CF-0194 measured this: widening to 3-33 / 2.5-20.5 would have passed the whole suite in silence). These two batches are the ones the envelope was declared from, they are named here rather than recomputed, and observed_min/observed_max are re-derived from them on disk by tests/test_pattern_vocabulary.py - so neither the list nor the numbers can be edited into something wider without the disk contradicting them. CF-0310 changed the unit and not the corpus: the same two batches, the same seven videos, the same plans, divided by their own length. Re-measured off disk 2026-09-22 the span is 15.389548 to 47.883918 blocks/minute, which is what the two numbers above are on the schema's two-decimal grid; the floor is lf-2026-08-31-003 (12 blocks over 46.78s) and the ceiling lf-2026-08-30-003 (33 over 41.35s)."
+      },
+      "note": "The floor is ordered, the ceiling is observed - CF-0314, the user's decision of 2026-09-22. Below 15.39 blocks a minute this is not an explainer, it is a slideshow, and a plan that slow is refused before the render. The case that forced the decision is lf-2026-09-09-006 (batch 2026-09-09T2031Z): 3 blocks over 40.40s of blocks, 4.46 blocks a minute, an average frame of 13.5 seconds. CF-0310 already recorded it as outside the envelope and it shipped anyway, because an emergent band orders nothing (CF-0039) - the envelope was a description, and nothing in the pipeline refuses a description. The ceiling is not an order and is unchanged: a video cut faster than 47.88 a minute is a fast cut, and this channel does not call that a defect, so it is reported as a shortfall and delivered. One end of one band is the whole of what CF-0039 gives up here, and it is the minimum that closes the hole: nothing is drawn (draw_order writes null for this parameter exactly as it did when the whole band was emergent - a rate has no number until a length is chosen, CF-0310), no writing is steered, and on all seven videos the envelope was measured over the behaviour is identical to before. What changed is one refusal at one end. Not ordered by this pattern in any other sense: the block count equals the number of resolved anchors, which is a property of the writing and of what the footage index could match - exactly the behaviour that exists today. The range is a drift envelope, not an instruction. CF-0310: it is a *rate*, and it used to be a count of 12-33 over the same seven videos. A count is a rate multiplied by the length of the video, so a band on the count is a band on both, and it graded length under the name of rhythm: a 34-second video cut at 20.9 blocks/minute - inside the form - failed the 12-block floor purely for being 34 seconds, which CF-0293 explicitly permits, while a 64-second slideshow at 11.3 blocks/minute - half the pace of anything in the corpus - passed it purely for being long. Dividing the count by the span of the blocks themselves (sum of block durations, not duration.composition: the composition carries a tail and an end card that hold no blocks, so a rate measured over it drifts with the length of the tail) removes the length and leaves the pace. Measured that way the same seven videos ran 15.39 to 47.88 blocks a minute, i.e. an average block of 3.90 down to 1.25 seconds - the average block is the same quantity inverted (average = 60 / rate), which is why there is one parameter and not two. Video Editor reads this key through rhythm.block_count_parameter() and reports a video outside it as block_rate_outside_band; which of the two ends it refuses on is rhythm.cadence_band_refuses(), and under floor_drawn that is the floor only (CF-0314)."
+    },
+    "key_frame_hold_seconds": {
+      "mode": "emergent",
+      "min": 2.5,
+      "max": 8.0,
+      "envelope_evidence": {
+        "measured_over_batches": ["2026-08-30T2329Z", "2026-08-31T2155Z"],
+        "observed_min": 2.9,
+        "observed_max": 7.52,
+        "declared_by": "CF-0039",
+        "frozen_by": "CF-0195",
+        "note": "Same fixed point, same seven videos. This parameter had no width guard at all until CF-0195: the hold could be stretched from 8.0 to 20.5 seconds and nothing in the suite would have noticed, which is a wider hole than the one block_count had."
+      },
+      "note": "Not ordered by this pattern either: the even rhythm privileges no frame, so the longest block is simply the longest narration segment. Measured as the duration of the longest block in the delivered plan, that ran 2.90 to 7.52 seconds across the same seven videos. Declaring a range here would change behaviour, which the baseline pattern is specifically not allowed to do."
+    },
+    "opening_block": {
+      "mode": "drawn",
+      "choices": ["hook_over_footage"],
+      "note": "One choice, so the draw is deterministic and equals what happens today - picture first, hook on top, no separate title beat. It is written as a drawn parameter rather than an emergent one because the value is genuinely decided rather than observed; the choice set is a set of one until CF-0041 makes the other openings executable."
+    },
+    "acceleration_to_payoff": {
+      "mode": "drawn",
+      "enabled_choices": [false],
+      "strength": null,
+      "note": "Off, always, for the same reason: acceleration is a block-length curve that nothing in the pipeline applies today, and switching it on for the baseline pattern would be a behaviour change. CF-0041 implements the curve; whether this pattern then takes it is a separate decision with its own evidence."
+    }
+  },
+
+  "original_contribution": {
+    "status": "defined",
+    "text": "Explains the one fact the story does not carry, not what happened: the retold story is the occasion, and the single line of reasoning belongs to that fact - a figure, a name, a date, an event, whatever its kind - which none of the reporting carries."
+  },
+  "meme_layer": {
+    "allowed": true,
+    "reason": "CF-0067. An explanation moves in steps, and a step that lands on an absurdity is where a reaction belongs; the key-frame hold band reaches 8.0s, so a block at the 3.0s floor of inserts/meme.json is ordinary here rather than rare. The form tolerates the interruption because the explainer's picture is illustrative, not the argument: giving one illustrative frame to a reaction costs a picture, never a step. The writer puts the reaction on the words that provoke it (a `reactions[]` beat_text inside the commentary), and never on the hook or the payoff, which carry the claim."
+  },
+  "sound_layer": {
+    "allowed": true,
+    "reason": "CF-0068. The same step that earns a reaction meme earns its punctuation: a sound of at most 1.5 s on the words where a step lands on an absurdity costs the explainer nothing on screen - no frame, no block, no caption - and the voice is not ducked (inserts/sound.json mix), so the step is still heard in full. Tolerated for the same reason the meme is and more cheaply: the picture stays illustrative and untouched. The writer puts the sound on the words that provoke it (a `sounds[]` beat_text inside the commentary) and never on the hook or the payoff, which the slot rule protects regardless."
+  },
+  "proof_layer": {
+    "allowed": true,
+    "reason": "CF-0071. Allowed, and this is the pattern the layer was described for: an explainer is one fact explained straight through, so the block where the voice says the fact is the explanation's first step, and the document the fact was taken from belongs on that step rather than as an interruption of it. What goes on screen is the named source of the fact (`script.production_fact.source_url`), which is the fact read instead of asserted - this channel owes every fact a source, and the proof layer is how the source reaches the screen rather than resting on our word (CF-0181). The picture is illustrative here, as the meme reasoning above says, so a block given to a document costs an illustrative frame, never a step. The key-frame hold band reaches 8.0 s, so a block at the 3.0 s floor carrying a 72-character headline read at 12 cps (6.0 s) is ordinary here rather than rare. Never on the hook or the payoff, which carry the claim in the host's own words; on the fact's beat and nowhere else."
+  }
+}

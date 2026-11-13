@@ -1,0 +1,65 @@
+{
+  "pattern_id": "list",
+  "display_name": "List",
+  "summary": "An enumerated set of self-contained items around one story, ordered to escalate.",
+
+  "script_sections": ["hook", "scene_direction", "commentary", "payoff"],
+
+  "allowed_rhythms": ["staccato", "hold"],
+
+  "writing_instruction": [
+    "This field is the whole of how to write this pattern. The section contract, the commentary length band and the write-for-the-ear rules are channel-level and live in the Content Researcher skill; everything below is what makes a script this pattern.",
+    "The shape is N items around one story: N things that changed, N reactions, N details nobody noticed. The items are self-contained - a viewer who missed item two loses nothing on item three. That independence is the pattern; if item three only makes sense after item two, you have written an explanation with numbers in it.",
+    "The hook states the count and the promise in one line, and the count you promise is the count you deliver. A hook that says four and a commentary that has three is the one failure mode this pattern has that the others do not, and it is visible to any viewer who is paying attention.",
+    "Each item is one or two sentences and carries its own picture. Before you commit to an item, ask whether it can be described as a frame; an item that cannot be illustrated is a hole the montage cannot hide, and on this pattern the hole is obvious because the cut lands on the item. Drop such an item and pick another rather than padding it.",
+    "Order the items to escalate. The strongest goes last, immediately before the payoff, because the payoff has to land on top of something. Never order them by how the source article listed them - that ordering is the source's, and reproducing it is exactly the reading-out-a-feed shape the channel has to stay away from.",
+    "One of the N items is the fact, and it is the last one. Every script this channel writes carries exactly one concrete fact the story does not carry, of any kind (CF-0181, CF-0439), and on this pattern that fact is an item like the others - numbered, counted inside the promise the hook makes, one or two sentences - standing where the escalation lands, immediately before the payoff. That is not a preference about ordering: the item the escalation is built to land on is the one the viewer is left holding, and it is the only item that says something no telling of the story contains. The sentences in which the fact is actually spoken are copied verbatim into `script.production_fact.beat_text` (CF-0183, CF-0186), so write that item as sentences that stand on their own - the on-screen line is drawn where that text points, and when the proof layer fires it fires on that item's block and nowhere else.",
+    "The fact is an item and not a coda. It does not go in the payoff - the payoff returns to the count, so a fact said there is outside the count the hook promised - and it does not go in the hook, which states the count and the promise. The picture rule above binds it hardest of all the items: ask whether the fact can be described as a frame before you commit to it, because the cut lands on the item and this is the item the video exists for. A fact that can only be asserted and not shown is the wrong fact for this pattern, and another item of the same story will not save it - look for a fact that has a frame. If the topic has no fact at all, it never reaches this pattern: the channel's refusal rule drops it at step 2 (`production_fact_refusal` in the channel config, CF-0185) rather than letting a list of N retellings be written.",
+    "The payoff returns to the count and says why the list matters, and it is not item N+1. Repeating the hook's words is not required: every video ends on the channel's end card, which breaks the replay loop in any case (the user's decision of 2026-09-28, CF-0424). If the closer is really another item, it belongs in the list and something else belongs in the closer.",
+    "On the hold rhythm the same list is written but the montage lingers on some items instead of cutting evenly through all of them - which means the items are not all equal in weight, so choose an order where the lingering falls on the ones that deserve it.",
+    "CF-0689 (the user's decision of 12.10): on a channel whose footage-origin document has the `own_graphic` origin (ExampleTech), the picture may stand on the factory's own graphics entirely - drawn in Remotion from this script's facts and nothing else (a spec card, a comparison, a price and date, a benchmark with its «according to X» line, a timeline, a how-it-works diagram; shared/own_graphic.py `TEMPLATES`). Order each in the script's `graphics[]`, place it on its words with a `visual_anchors[]` entry that carries its `graphic_id`, and declare every value on it as a claim with `where: \"graphic:<graphic_id>\"` standing on a verbatim quote - a graphic carries no number, name or date the topic's text does not, and no words of its own. On a channel without that origin nothing here changes."
+  ],
+
+  "parameters": {
+    "block_count": {
+      "mode": "drawn",
+      "min": 12,
+      "max": 24,
+      "note": "Enough blocks that every item gets at least its own, with room for supporting frames around the bigger ones. The ceiling is below the 33 blocks the baseline pattern was observed at because a list that fine-grained stops reading as a list and starts reading as a montage. CF-0310 restated the baseline's own envelope as a rate (block_rate_per_minute 15.39-47.88, which is where that 33 came from) because an observed band on a count is a band on the length of the video too; this band stays a count because it is drawn - it is an order for one video whose length the channel already fixes, and draw_order, the capacity gate and fit_order_to_voice all want a number of blocks. Moving it to a rate is a separate decision with its own measurement, and the arithmetic for it is in the task file: the count has to be divided by the channel's narration band minus its tail, not by the 35-60s in this note."
+    },
+    "key_frame_hold_seconds": {
+      "mode": "drawn",
+      "min": 1.0,
+      "max": 2.5,
+      "note": "The longest block, kept deliberately short: on staccato nothing is held, and even on hold the longest item should not dwarf the others, or the list stops feeling enumerated. This is the narrowest hold band of the four patterns, and it is the parameter that most distinguishes this pattern from moment-breakdown."
+    },
+    "opening_block": {
+      "mode": "drawn",
+      "choices": ["count_card", "hook_over_footage"],
+      "note": "count_card puts the promised number on screen as a deliberate card (asset_kind card, CF-0041), which is the clearest possible statement of the pattern in the first second. hook_over_footage is the fallback while cards are not executable."
+    },
+    "acceleration_to_payoff": {
+      "mode": "drawn",
+      "enabled_choices": [true, false],
+      "strength": { "min": 0.2, "max": 0.4 },
+      "note": "The strongest acceleration band of the four: a list that speeds up toward its last item is the one place where the curve is doing the same work as the writing rather than fighting it."
+    }
+  },
+
+  "original_contribution": {
+    "status": "defined",
+    "text": "The item carrying the one added fact is the one the escalation is built to land on: every other item retells the story, and that one says what the story does not - a figure, a name, a date, an event no telling of the story contains."
+  },
+  "meme_layer": {
+    "allowed": true,
+    "reason": "CF-0067. An item is a self-contained beat, and a reaction to an item is the most natural place a meme has in this vocabulary - so the form tolerates it. The drawn key-frame hold band tops out at 2.5s, under the 3.0s floor, so on the staccato rhythm no single block reaches it - and since CF-0811 (part b) that no longer loses the meme: the editor lays it as a span from the beat's first word across the consecutive blocks up to the floor (inserts/meme.json placement.rule), inside the commentary, and the hold ceiling is not asked of a span. `no_block` is now the exception, and it always names its reason (no_room_before_payoff, pinned_block_in_span, ...). The writer places one or two reactions here like on any pattern that allows the layer (content-researcher CF-0811, part a), each with room for the floor in the commentary after its beat."
+  },
+  "sound_layer": {
+    "allowed": true,
+    "reason": "CF-0068. Where the meme rarely fires here - the staccato blocks never reach its 3.0s floor - the sound fires freely, because it needs no block at all: it sits on the first word of the item's beat and is over in 1.5 s, inside whatever block the moment falls in. An item is a self-contained beat, and a buzzer or a bonk on the item that deserves one is the most natural punctuation this vocabulary has; on the staccato rhythm it is also the only reaction insert that can land. The gap rule (4.0 s anchor to anchor) keeps two sounds from turning a list into a soundboard, and the writer should expect the second request to be `no_slot` on a short list."
+  },
+  "proof_layer": {
+    "allowed": true,
+    "reason": "CF-0071. Allowed because the shape tolerates it, not because it will fire. An item is a self-contained beat, and the item carrying the fact is the one place a document belongs on a list - the item the escalation is built to land on, read off its own page instead of said. Every other item retells the story; that one says what the story does not, and what goes on screen is the named source it rests on (`script.production_fact.source_url`, CF-0186) - this channel owes every fact a source, and the proof layer is how the source reaches the screen rather than resting on our word (CF-0181). It will rarely land: the drawn key-frame hold band tops out at 2.5 s, under the 3.0 s floor, and a proof also needs len(verbatim_text)/12 s of block, so on the staccato rhythm every request is `no_block` and the `hold` rhythm is the one route to a block at the floor - the same arithmetic as the meme above with the reading time on top. The writer should expect the request declined more often than not and should not pad an item to make room for it: an item stretched to 6 s for a headline is no longer a list item. Never on the hook or the payoff; on the fact's beat and nowhere else."
+  }
+}

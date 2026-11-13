@@ -1,0 +1,453 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/*
+ * Тема «Кинозал» (вариант A, docs/design.md). Тёмная — на :root (по умолчанию),
+ * светлая — на :root[data-theme='light']; атрибут ставит src/app/theme.ts.
+ * Шрифты — пакеты @fontsource (src/fonts.ts), без сети.
+ */
+
+@custom-variant dark (&:is(:root:not([data-theme='light']) *));
+@custom-variant light (&:is(:root[data-theme='light'] *));
+
+:root {
+  color-scheme: dark;
+  --background: #0b0b12;
+  --foreground: #ececf1;
+  --card: #13131c;
+  --card-foreground: #ececf1;
+  --popover: #1b1b27;
+  --popover-foreground: #ececf1;
+  --muted: #1b1b26;
+  --muted-foreground: #9191a4;
+  --border: #272735;
+  --input: #2e2e3e;
+  --ring: #ffe23d;
+  --primary: #ffe23d;
+  --primary-foreground: #15130a;
+  --primary-text: #ffe23d;
+  --success: #3dd68c;
+  --warning: #ff9a4d;
+  --danger: #ff6161;
+  --frame: #06060a;
+  --hole: #1e1e2a;
+  /* Скелетон загрузки (CC-0121): заметен и на карточке, и на фоне. */
+  --skeleton: #242432;
+  /* Условный кадр «Добор» (CC-0090): лента всегда тёмная, кадр — #0e0e16 в обеих темах, значения
+     одни. Контраст: подпись 7,5:1, «не понадобился» 5,7:1, его название 9,4:1 (к кадру); рамка
+     3,7:1 к кадру, 3,9:1 / 3,4:1 к ленте тёмной / светлой темы. */
+  --film-extra: #a0a0b4;
+  --film-extra-quiet: #8a8aa0;
+  --film-extra-title-quiet: #b4b4c6;
+  --film-extra-line: #6a6a84;
+  /* Готовый кадр ленты (CC-0126): лента тёмная в обеих темах — значения одни. Контраст к фону
+     кадра #0b1a12: значок 9,6:1, подпись 13:1, рамка 4,9:1. */
+  --film-ok: #3dd68c;
+  --film-ok-bg: #0b1a12;
+  --film-ok-line: #2e9a66;
+  --film-ok-text: #cfeedd;
+  /* Тиры оценки ролика (CC-0125): ступень 1 — лучший тир модели … 5 — нижний проходной, f — ниже
+     порога. Текст значка — этим цветом по карточке: контраст к --card не ниже 4,5:1 в обеих темах.
+     Буква тира видна всегда — цвет только подкрепляет. */
+  --tier-1: #3dd68c;
+  --tier-2: #a3e05a;
+  --tier-3: #ffe23d;
+  --tier-4: #ffb547;
+  --tier-5: #ff9a4d;
+  --tier-f: #ff6161;
+
+  /* shadcn-имена, которых нет в макете, сведены к токенам макета. */
+  --secondary: var(--muted);
+  --secondary-foreground: var(--foreground);
+  --accent: var(--muted);
+  --accent-foreground: var(--foreground);
+  --destructive: var(--danger);
+
+  --radius: 6px;
+  --space-card: 20px;
+  --space-gap: 16px;
+  --space-gutter: 24px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --background: #f2f2f5;
+  --foreground: #12121b;
+  --card: #ffffff;
+  --card-foreground: #12121b;
+  --popover: #12121b;
+  --popover-foreground: #f2f2f5;
+  --muted: #e9e9ef;
+  --muted-foreground: #5d5d70;
+  --border: #dadae3;
+  --input: #cdcdd9;
+  --ring: #8a6d00;
+  --primary: #ffdb1f;
+  --primary-foreground: #15130a;
+  --primary-text: #7a6000;
+  --success: #12804c;
+  --warning: #b9530c;
+  --danger: #cc2e2e;
+  --frame: #17171f;
+  --hole: #2c2c3a;
+  --skeleton: #e2e2ea;
+  /* Условный кадр «Добор» (CC-0090): лента всегда тёмная, кадр — #0e0e16 в обеих темах, значения
+     одни. Контраст: подпись 7,5:1, «не понадобился» 5,7:1, его название 9,4:1 (к кадру); рамка
+     3,7:1 к кадру, 3,9:1 / 3,4:1 к ленте тёмной / светлой темы. */
+  --film-extra: #a0a0b4;
+  --film-extra-quiet: #8a8aa0;
+  --film-extra-title-quiet: #b4b4c6;
+  --film-extra-line: #6a6a84;
+  --tier-1: #12804c;
+  --tier-2: #4a7a06;
+  --tier-3: #7a6000;
+  --tier-4: #95560a;
+  --tier-5: #b9530c;
+  --tier-f: #cc2e2e;
+}
+
+/* Телефон (до 640px макета): поле и отступы — 16px. */
+@media (width < 40rem) {
+  :root {
+    --space-card: 16px;
+    --space-gap: 12px;
+    --space-gutter: 16px;
+  }
+}
+
+/* Не зависит от темы: шрифты, радиусы, брейкпоинты — под теми же именами, что в docs/design.md. */
+@theme {
+  /* Брейкпоинты макета: до 640px — телефон, до 900px — две колонки, дальше — три. */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 56.25rem;
+
+  --font-display: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+}
+
+@theme inline {
+  --spacing-card: var(--space-card);
+  --spacing-gap: var(--space-gap);
+  --spacing-gutter: var(--space-gutter);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-text: var(--primary-text);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-frame: var(--frame);
+  --color-hole: var(--hole);
+  --color-skeleton: var(--skeleton);
+  --color-film-extra: var(--film-extra);
+  --color-film-extra-quiet: var(--film-extra-quiet);
+  --color-film-extra-title-quiet: var(--film-extra-title-quiet);
+  --color-film-extra-line: var(--film-extra-line);
+  --color-film-ok: var(--film-ok);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html,
+  body {
+    @apply bg-background text-foreground;
+  }
+  body {
+    font: 14px/1.5 var(--font-sans);
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Подпись капителью над заголовком карточки. */
+  .eyebrow {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted-foreground);
+  }
+
+  /*
+   * Кинолента батча: всегда тёмная (и в светлой теме), перфорация — повторяющимся
+   * градиентом сверху и снизу; на телефоне лента вертикальная, перфорация по бокам.
+   */
+  .film-strip {
+    --film-hole: repeating-linear-gradient(90deg, var(--hole) 0 9px, transparent 9px 20px);
+    background-color: var(--frame);
+    background-image: var(--film-hole), var(--film-hole);
+    background-size:
+      100% 5px,
+      100% 5px;
+    background-position:
+      0 5px,
+      0 calc(100% - 5px);
+    background-repeat: no-repeat;
+  }
+  /* Восемь кадров плана (CC-0090) влезают в ряд только от 64rem — до этого лента вертикальная. */
+  @media (width < 64rem) {
+    .film-strip {
+      --film-hole: repeating-linear-gradient(180deg, var(--hole) 0 9px, transparent 9px 20px);
+      background-size:
+        5px 100%,
+        5px 100%;
+      background-position:
+        5px 0,
+        calc(100% - 5px) 0;
+    }
+  }
+  .film-frame {
+    border: 1px solid #2a2a38;
+    background: #0e0e16;
+    color: #9a9aad;
+  }
+  /*
+   * Кадр по состоянию (CC-0126): значок у номера + рамка — различимы и без цвета. Готово ✓ —
+   * сплошная рамка «ок» и светлый текст; идёт ▶ — жёлтая; ждёт ○ — приглушённый текст; упала
+   * ✕ — красная; остановлено ❚❚; пропущено, не понадобился, не дошёл – — пунктир, серым.
+   * Лента всегда тёмная: значения одни в обеих темах.
+   */
+  .film-num {
+    color: #6a6a7e;
+  }
+  .film-num::after {
+    display: inline-block;
+    margin-left: 4px;
+  }
+  .film-title {
+    color: #e6e6ee;
+  }
+  .film-aside {
+    color: #9a9aad;
+  }
+  .film-frame[data-state='done'] {
+    border-color: var(--film-ok-line);
+    background: var(--film-ok-bg);
+    color: var(--film-ok-text);
+  }
+  .film-frame[data-state='done'] .film-num {
+    color: var(--film-ok);
+  }
+  .film-frame[data-state='done'] .film-num::after {
+    content: '✓';
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .film-frame[data-state='done'] .film-aside {
+    color: #a8c9b6;
+  }
+  .film-frame[data-state='now'] {
+    border-color: #ffe23d;
+    background: #16150d;
+  }
+  .film-frame[data-state='now'] .film-num {
+    color: #ffe23d;
+  }
+  .film-frame[data-state='now'] .film-num::after {
+    content: '▶';
+    animation: cc-film-now 1.6s ease-in-out infinite;
+  }
+  .film-frame[data-state='wait'] .film-num::after {
+    content: '○';
+  }
+  .film-frame[data-state='wait'] .film-title {
+    color: #b4b4c6;
+  }
+  /* «ждёт» и номер ждущего кадра (CC-0150, ревью экранов): светлее, чтобы мелкий текст читался
+   * (≈7,5:1 и ≈5,7:1 к фону кадра), но тусклее заголовка и без жёлтого «идёт». */
+  .film-frame[data-state='wait'] {
+    color: #a0a0b4;
+  }
+  .film-frame[data-state='wait'] .film-num {
+    color: #8a8aa0;
+  }
+  .film-frame[data-state='part'] .film-num::after {
+    content: '◐';
+  }
+  .film-frame[data-state='bad'] {
+    border-color: #ff5c5c;
+    background: #1a0d0f;
+  }
+  .film-frame[data-state='bad'] .film-num {
+    color: #ff5c5c;
+  }
+  .film-frame[data-state='bad'] .film-num::after {
+    content: '✕';
+    font-weight: 700;
+  }
+  .film-frame[data-state='stopped'] {
+    border-color: #ffb547;
+    background: #17120a;
+  }
+  .film-frame[data-state='stopped'] .film-num {
+    color: #ffb547;
+  }
+  .film-frame[data-state='stopped'] .film-num::after {
+    content: '❚❚';
+  }
+  .film-frame[data-state='opt'] {
+    color: var(--film-extra);
+  }
+  .film-frame[data-state='opt'] .film-num {
+    color: var(--film-extra);
+  }
+  .film-frame[data-state='opt'] .film-num::after {
+    content: '◇';
+  }
+  .film-frame[data-state='skip'],
+  .film-frame[data-state='unneeded'],
+  .film-frame[data-state='unreached'] {
+    border-style: dashed;
+    color: var(--film-extra-quiet);
+  }
+  .film-frame[data-state='skip'] .film-num,
+  .film-frame[data-state='unneeded'] .film-num,
+  .film-frame[data-state='unreached'] .film-num {
+    color: var(--film-extra-quiet);
+  }
+  .film-frame[data-state='skip'] .film-num::after,
+  .film-frame[data-state='unneeded'] .film-num::after,
+  .film-frame[data-state='unreached'] .film-num::after {
+    content: '–';
+  }
+  .film-frame[data-state='skip'] .film-title,
+  .film-frame[data-state='unneeded'] .film-title,
+  .film-frame[data-state='unreached'] .film-title {
+    color: var(--film-extra-title-quiet);
+  }
+  /*
+   * Плёнка между кадрами (CC-0126): пройденный участок — толще и цвета «ок», впереди — тонкий
+   * тёмный. В ряд — вбок в зазоре кадров, на телефоне — вниз.
+   */
+  .film-frame[data-link]::after {
+    content: '';
+    position: absolute;
+    pointer-events: none;
+    left: 24px;
+    bottom: calc(-0.5rem - 1px);
+    width: 1px;
+    height: 0.5rem;
+    background: #3a3a4c;
+  }
+  .film-frame[data-link='passed']::after {
+    left: 23px;
+    width: 3px;
+    background: var(--film-ok);
+  }
+  @media (width >= 64rem) {
+    .film-frame[data-link]::after {
+      left: auto;
+      right: calc(-0.5rem - 1px);
+      top: 50%;
+      bottom: auto;
+      width: 0.5rem;
+      height: 1px;
+    }
+    .film-frame[data-link='passed']::after {
+      left: auto;
+      width: 0.5rem;
+      height: 3px;
+      margin-top: -1px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .film-frame[data-state='now'] .film-num::after {
+      animation: none;
+    }
+  }
+
+  /* Строка табов: прокрутка вбок без полосы. */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pulse-dot {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+    animation: cc-pulse 2s infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot {
+      animation: none;
+    }
+  }
+}
+
+/* CC-0084: слой записи — проступает через 250 мс (короткая запись не мигает); кольцо крутится
+   без прогресса. При «меньше движения» — без затухания и без вращения, подпись та же. */
+.write-lock-in {
+  opacity: 0;
+  animation: cc-lock-in 160ms ease-out 250ms forwards;
+}
+.write-lock-spin {
+  animation: cc-spin 0.9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .write-lock-in {
+    animation: cc-lock-in 0s linear 250ms forwards;
+  }
+  .write-lock-spin {
+    animation: none;
+  }
+}
+@keyframes cc-lock-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cc-film-now {
+  50% {
+    opacity: 0.35;
+  }
+}
+@keyframes cc-pulse {
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+/* CC-0073: на телефоне свёрнутая панель тренировки — полоса внизу; низ страницы не прячется под ней. */
+@media (max-width: 639.98px) {
+  body:has([data-training-handle]) {
+    padding-bottom: calc(52px + env(safe-area-inset-bottom));
+  }
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  CF-0592: the timer of the batch schedule - every {{INTERVAL}} s it runs
+  `batch_schedule.py tick`, which starts the day's batch only when the switch
+  (schedule/switch.json) is on, the plan has a channel for today, now is inside
+  its window, no batch is open and none started today. A Mac asleep in the
+  window misses it; the next tick inside the window catches up.
+  A TEMPLATE: `batch_schedule.py install-timer` (print mode) fills it in. It is installed only on the user's «включай» - docs/batch-schedule.md.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>{{LABEL}}</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>{{PYTHON}}</string>
+        <string>{{SCRIPT}}</string>
+        <string>tick</string>
+        <string>--root</string>
+        <string>{{ROOT}}</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>{{ROOT}}</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>{{PATH}}</string>
+    </dict>
+    <key>StartInterval</key>
+    <integer>{{INTERVAL}}</integer>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>{{LOG}}</string>
+    <key>StandardErrorPath</key>
+    <string>{{LOG}}</string>
+</dict>
+</plist>

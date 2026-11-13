@@ -1,0 +1,56 @@
+{
+  "_doc": "the agents are libraries of the root, pinned here like package.json pins its dependencies. `rev` is a tag, a branch or a sha of the agent's own repo. main of the root pins release tags; a release/<version> branch pins what the version is being built on. `links` are the ignored files a root worktree borrows from the working copy (scripts/agents sync). Read and written by shared/agents_lock.py only; see README, 'Versions and the agents' checkout'. CF-0651: `modules` are pinned the same way but are no part of a batch - the command center (`frontend`, repo example/command-center); sync builds it (`build`: npm ci && npm run build -> frontend/dist) under the root's API `contract`, status only warns about it.",
+  "agents": {
+    "compliance-checker": {
+      "path": "agents/compliance-checker",
+      "rev": "main"
+    },
+    "content-researcher": {
+      "path": "agents/content-researcher",
+      "rev": "main"
+    },
+    "footage-indexer": {
+      "path": "agents/footage-indexer",
+      "rev": "main"
+    },
+    "trend-hunter": {
+      "path": "agents/trend-hunter",
+      "rev": "main"
+    },
+    "video-editor": {
+      "path": "agents/video-editor",
+      "rev": "main"
+    }
+  },
+  "modules": {
+    "frontend": {
+      "path": "command-center",
+      "rev": "main",
+      "build": "npm",
+      "contract": "api/openapi.json"
+    }
+  },
+  "links": {
+    "root": [
+      ".env",
+      ".venv",
+      "shared/footage",
+      "shared/inserts/*/*",
+      "pipeline/*",
+      "publish/**/*.mp4",
+      "agents/publisher/.env",
+      "agents/publisher/.venv",
+      "agents/publisher/secrets"
+    ],
+    "agents": {
+      "*": [
+        ".env",
+        ".venv"
+      ],
+      "video-editor": [
+        "models",
+        "render/node_modules"
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- CC-0144: the simplified drawing for the 16 px raster (scripts/favicon.ts, SOURCE_OF):
+       the same mark with a thicker ring and a larger triangle, so it does not blur at 16 px.
+       The main drawing is favicon.svg. -->
+  <rect width="64" height="64" rx="14" fill="#0b0b12"/>
+  <circle cx="32" cy="32" r="21" fill="none" stroke="#ffe23d" stroke-width="9"/>
+  <path d="M25 19 L25 45 L46 32 Z" fill="#ffffff"/>
+</svg>

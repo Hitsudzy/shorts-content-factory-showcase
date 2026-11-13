@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  CC-0003: the command center's API (`python3 -m api serve`) kept running by
+  launchd - the API under {{BASE}}api/ and the built center (frontend/dist) on
+  http://{{HOST}}:{{PORT}}{{BASE}}. Every setting is an environment variable of
+  api/settings.py; nothing of this machine is in the code.
+  A TEMPLATE: `python3 -m api launchd` (print mode) fills it in. It is installed
+  only on the user's word (README, "Command center").
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>{{LABEL}}</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>{{PYTHON}}</string>
+        <string>-m</string>
+        <string>api</string>
+        <string>serve</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>{{CODE}}</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>{{PATH}}</string>
+        <key>PYTHONPATH</key>
+        <string>{{CODE}}</string>
+        <key>CC_API_HOST</key>
+        <string>{{HOST}}</string>
+        <key>CC_API_PORT</key>
+        <string>{{PORT}}</string>
+        <key>CC_FACTORY_ROOT</key>
+        <string>{{ROOT}}</string>
+        <key>CC_FRONTEND_DIST</key>
+        <string>{{DIST}}</string>
+        <key>CC_BASE_PATH</key>
+        <string>{{BASE}}</string>
+        {{AUTH_ENV}}
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>{{LOG}}</string>
+    <key>StandardErrorPath</key>
+    <string>{{LOG}}</string>
+</dict>
+</plist>

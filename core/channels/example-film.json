@@ -1,0 +1,56 @@
+{
+  "channel_id": "example-film",
+  "display_name": "Example Film",
+  "theme": {
+    "bg": "#0E1116",
+    "accent": "#F2B33D",
+    "accent2": "#5B7CFA",
+    "text": "#F4F4F2",
+    "muted": "#A3A9B5",
+    "card_ground": [
+      "#232A36",
+      "#171C25",
+      "#0E1116"
+    ],
+    "end_card_ground": [
+      "#2A3240",
+      "#1F2632",
+      "#151A22"
+    ],
+    "badge": {
+      "paper": "#ECEEF2",
+      "ink": "#161A22",
+      "ink_muted": "#5A6272",
+      "rule": "#C4C9D3",
+      "accent": "#5B7CFA",
+      "accent_ink": "#FFFFFF"
+    },
+    "font": {
+      "display": "\"Arial Black\", \"Helvetica Neue\", sans-serif",
+      "text": "\"Helvetica Neue\", Helvetica, Arial, sans-serif",
+      "card": "Helvetica, Arial, sans-serif",
+      "badge": "\"Courier Prime\", \"IBM Plex Mono\", monospace"
+    },
+    "picked": [
+      "bg",
+      "accent",
+      "accent2",
+      "text",
+      "muted",
+      "card_ground",
+      "end_card_ground",
+      "badge",
+      "font"
+    ],
+    "note": "CC-0008: the template's neutral palette (shared/channel_template/config.json), nobody's brand - every value is in `picked`. Replace it with the channel's brand palette (docs/channel-data.md «The theme»); the factory's contrast rules check it on every save."
+  },
+  "language": "en",
+  "status": "no_pipeline",
+  "status_note": "CC-0008: created from the command center on 2026-01-01 from the factory's template (shared/channel_template, shared/new_channel.py). A channel without a pipeline yet: no run_plan (the executor refuses it), no publisher (no slot, no queue), batch_schedule.enabled false (the factory's daily batch never goes here). Every reader of channels/*.json says «конвейера нет - батча не будет» for it (shared/channel_ids.py: no_pipeline_reason). The blocks a pipeline reads - scope, sources, patterns, insert layers, voice, the lists in channels/example-film/ (fact-sources, rights-holder-blacklist, footage-origin) - are added by editing this file; the status key goes away together with this note when the channel gets its run_plan.",
+  "batch_schedule": {
+    "enabled": false,
+    "note": "CC-0008: a new channel is created off the schedule - no pipeline, no run_plan, the daily batch never comes here. It is turned on when the channel has its run_plan."
+  },
+  "stance": "example-film/stance.json",
+  "stance_note": "CC-0008: the channel's position - the template's empty skeleton until a person writes it (channels/example-film/stance.json)."
+}

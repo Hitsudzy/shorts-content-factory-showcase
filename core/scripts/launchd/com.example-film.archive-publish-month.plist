@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  CF-0476 + CF-0358: THE monthly archive - the one job that frees the disk
+  (the user's decision of 2026-10-04; archive_old_batches.sh and its
+  com.example-film.archive-old-batches job are retired). In this order:
+  (a) a past month of publish/ -> one zip on Archive;
+  (b) the footage pool: sources of published/withdrawn topics, and of topics
+      that never became a video once every batch of theirs is 14 days old;
+  (c) batches older than 30 days -> one zip per month on Archive, verified,
+      then deleted here (after `rotate.py backfill` and its check exits 0, CF-0056);
+  (d) old factory runs in $TMPDIR (24 h, scripts/cleanup_tmpdir.sh).
+  Nothing is deleted while a batch is open; steps (b)-(d) run once a month.
+  Runs on the 1st of every month at 10:00 (a Mac asleep then runs it on wake)
+  and whenever any volume is mounted (StartOnMount): plugging Archive in pays a debt
+  the 1st could not; with no debt the run is silent. It is never daily.
+  python3, not bash: /bin/bash under launchd has no access to the removable
+  Archive volume ("Operation not permitted"), /usr/bin/python3 has.
+  Installing it is a step of the release ritual (launchd runs the scripts of
+  the main checkout): commands in
+  tasks/CF-0358-published-video-releases-its-sources.md, "Релизный ритуал".
+  The script writes its own lines to scripts/archive.log; stdout repeats them,
+  so it goes to /dev/null and only stderr (a traceback) lands in the log.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.example-film.archive-publish-month</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>~/factory/scripts/archive_publish_month.py</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Day</key>
+        <integer>1</integer>
+        <key>Hour</key>
+        <integer>10</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    <key>StartOnMount</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/dev/null</string>
+    <key>StandardErrorPath</key>
+    <string>~/factory/scripts/archive.log</string>
+</dict>
+</plist>

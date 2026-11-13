@@ -1,0 +1,96 @@
+{
+  "_note": "Shared enums referenced by every pattern file in this directory. Two of them live here rather than in one pattern each because both are cross-pattern vocabularies that Video Editor executes: a pattern only picks from these lists, it never invents an entry. Rhythm definitions come from the CF-0015 design session (2026-09-02); execution is CF-0041.",
+
+  "rhythms": [
+    {
+      "rhythm_id": "even",
+      "display_name": "Even",
+      "summary": "One anchor, one block, straight through - no block is privileged.",
+      "cut_logic": [
+        "Blocks follow the narration one-for-one: every resolved anchor gets a block, and a block lasts exactly as long as the words it sits under. Nothing is stretched to make a point and nothing is cut short to make room.",
+        "The cadence that comes out is therefore a property of the writing, not of the montage - roughly two seconds a block on a 40-second script. That is the current behaviour of the pipeline and the reason this rhythm needs no new code.",
+        "Use it when the script is one continuous line of reasoning and no single frame is carrying more weight than its neighbours."
+      ],
+      "executable_today": true,
+      "blocked_by": null
+    },
+    {
+      "rhythm_id": "hold",
+      "display_name": "Hold",
+      "summary": "Few blocks, long holds - one frame carries several sentences.",
+      "cut_logic": [
+        "Deliberately fewer blocks than there are anchors. One frame is chosen to carry a whole passage of narration and is left on screen while the voice works over it; the remaining anchors either fall away or become short punctuation around that hold.",
+        "Executed in agents/video-editor/scripts/rhythm.py (CF-0041): the passage the writing already dwells on longest becomes the held segment, it is grown to key_frame_hold_seconds, and no other block is allowed to end up as long as it. A clip too short to fill the held block is delivered as one frame lifted out of it, flagged held_frame - which is this rhythm working, not a degradation.",
+        "The held frame must be worth holding: it is chosen for what it shows, not for where it happens to fall in the timeline. A held frame that has nothing in it reads as a stall, not as emphasis.",
+        "Use it when the script stops on one thing and takes it apart, rather than moving along a story."
+      ],
+      "executable_today": true,
+      "blocked_by": null,
+      "drawn_hold": {
+        "applies_to": "key_frame_hold_seconds",
+        "max_share_of_band": 0.5,
+        "note": "CF-0300. The held block does not stop at the number that was drawn: rhythm._plan_hold starts from the stretch the writing already dwells on longest and swallows whole neighbouring stretches while it is still shorter than the drawn hold, so it lands on the first running total that reaches the draw rather than on the draw itself. The drawn hold is a floor for the held frame; the pattern's key_frame_hold_seconds.max is the ceiling the montage may not break, and CF-0276 cuts a long block back only where the rhythm allows a new boundary - a held key frame is not such a boundary, so nothing downstream can take the overshoot off. Two facts bound it: the block only grows when the draw is longer than the longest stretch, and every stretch it then swallows is at most as long as that longest one, so a block that grew at all ends under twice the drawn hold, while a block that did not grow is the longest stretch, which CF-0233 already holds to the band. Half the band is therefore the largest draw from which no script can breach the ceiling, and the reserve it leaves is measured in the unit the block actually jumps by - one whole stretch between neighbouring anchors. On the corpus the reserve costs nothing: every hold-rhythm script of batches 2026-09-15..2026-09-19 has its longest stretch above half its band (list 2.047 and 2.32 against 2.5; moment-breakdown 6.623, 8.116 and 8.763 against 9.0), so the held frame still lands on the passage the writing dwells on, at that passage's own length. The three draws that sat above this share are exactly the three that breached: 8.0 on a 6.623 longest stretch grew to 10.656 against 9.0, and 2.5 on 2.32 and on 2.047 grew to 4.645 and 3.932 against 2.5. Only the drawn value moves; the pattern's envelope is untouched (CF-0195)."
+      }
+    },
+    {
+      "rhythm_id": "staccato",
+      "display_name": "Staccato",
+      "summary": "A hard cut on every enumerated item, landing on the item, not between sentences.",
+      "cut_logic": [
+        "The cut is aligned to the enumeration, not to the breath: the picture changes on the word that names the next item, so the montage and the list agree on where one item ends and the next begins.",
+        "Executed in agents/video-editor/scripts/rhythm.py (CF-0041) as the one rhythm that drops the 0.35s lead: every other rhythm lands the picture slightly ahead of its word, this one lands it on the word. Each item's stretch is then divided into equal pieces under the key_frame_hold_seconds ceiling, so a block count that does not fit under that ceiling is overshot rather than the ceiling being relaxed.",
+        "Blocks are short and near-equal by construction, which looks like the even rhythm on a duration histogram but is not the same thing - the boundaries are placed by meaning here, and by narration timing there. That difference is exactly what the Analyst join is meant to see.",
+        "Use it only where the script actually enumerates. Imposed on continuous prose it produces cuts that land mid-thought."
+      ],
+      "executable_today": true,
+      "blocked_by": null
+    },
+    {
+      "rhythm_id": "alternate",
+      "display_name": "Alternate",
+      "summary": "Two visual sets alternating - the alternation itself carries the meaning.",
+      "cut_logic": [
+        "Two distinguishable sets of footage are assigned to the two sides of whatever the script is holding apart, and the montage moves back and forth between them so that the picture states the comparison before the words finish making it.",
+        "This deliberately builds the A-B-A-B structure that CF-0034 recorded as a defect when it appeared by accident. The difference is intent and matching: here the two sets are chosen to be told apart, whereas the defect was the same two clips recycled because nothing else resolved.",
+        "CF-0041 made that difference mechanical rather than a matter of intent. CF-0034's defect was the same adjacent *pair* of shots recurring back to back (43,36,43,36), with both shots well inside CF-0026's reuse cap of 3 - so the cap could never have caught it. resolve_anchors.py therefore refuses a candidate that would recreate an adjacent pair already used in this video, on top of the reuse cap, which is untouched; rhythm.repeated_adjacent_pairs() re-measures it on the finished plan, and a video where it is non-zero does not get rhythm_delivered alternate.",
+        "CF-0050 moved where the two sides come from and left that discriminator untouched. A side is now the side the *script* declared: Content Researcher names the axis and its two sides in 03-content-researcher.json, the anchors carry side a or b per moment, and the montage swings where the writing crosses its own axis. Two footage sources remain the fallback for a script that declared nothing - it is a property of the files rather than of the writing, so it cannot see a comparison shot by one camera and cannot refuse two sources that compare nothing. With sides declared, the block count yields to the number of crossings rather than the other way round, the same precedence hold already settles.",
+        "Use it when the script has exactly two sides. With three or more it stops reading as alternation and becomes noise."
+      ],
+      "executable_today": true,
+      "blocked_by": null
+    }
+  ],
+
+  "opening_block_kinds": [
+    {
+      "kind": "hook_over_footage",
+      "summary": "The hook line is spoken over the first resolved anchor's footage.",
+      "description": "The video opens the way every video opens today: picture first, hook line on top of it, no separate title beat. Nothing about the first block distinguishes it from the rest of the montage except that it is first.",
+      "executable_today": true,
+      "blocked_by": null
+    },
+    {
+      "kind": "cold_frame",
+      "summary": "The key frame opens alone and is held a beat before the first word.",
+      "description": "The opening block starts before the narration does: the frame sits silent for a beat, then the hook lands on it. Costs a beat of a 35-60 second budget, so it is only worth it when the frame itself is the hook.",
+      "how_it_is_built": "CF-0050: this is a change to the synthesis, not to the block plan. synthesize_voiceover.py --lead-silence puts real silence in front of the narration, so align_words.py shifts every timing on its own and the duration budget already counts the beat; the picture is up from 0.00s because resolve_anchors.py already pulls the first block back to zero. resolve_anchors.py refuses the opening in writing when the voiceover it was given does not actually start late (rhythm.COLD_FRAME_MIN_LEAD_SECONDS), and qc_render.py excuses the resulting silence only when the plan declared it and the frame under it is measurably lit - a black frame under the beat fails both gates.",
+      "executable_today": true,
+      "blocked_by": null
+    },
+    {
+      "kind": "count_card",
+      "summary": "A deliberate text card stating the count the script promises.",
+      "description": "A rendered card, not footage - asset_kind card from CF-0041, which is a deliberate typographic beat and explicitly not the typographic floor of the degradation chain. The number on the card is the number of items the script actually delivers.",
+      "executable_today": true,
+      "blocked_by": null
+    },
+    {
+      "kind": "side_by_side",
+      "summary": "Both contrasted sets appear together in the first block.",
+      "description": "The opening block shows the two sides of the comparison in one frame, so the axis is visible before it is named. Needs both sets to have resolved footage; if either side is unresolved this opening cannot be built and the block falls back to hook_over_footage.",
+      "how_it_is_built": "CF-0050: a composition rather than a parameter - render/src/components/SplitLayer.jsx divides the main zone into two stacked halves with a seam. Stacked, because a 9:16 frame split down the middle leaves each side 0.28:1 against 2.35:1 footage; across, each half is 1.13:1, a wider window than the full-frame crop, so focus and zoom are recomputed for the half's own aspect rather than carried over. resolve_anchors.py cuts and gates both halves before the block loop, because whether both sides survive is what decides which opening is delivered.",
+      "executable_today": true,
+      "blocked_by": null
+    }
+  ]
+}

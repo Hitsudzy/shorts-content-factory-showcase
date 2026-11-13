@@ -1,0 +1,95 @@
+{
+  "pattern_id": "scale",
+  "display_name": "Scale against the familiar",
+  "summary": "One measured quantity from the source - a size, a distance, a speed, a span of time - carried by one factor onto something the viewer already knows the size of, until the number becomes a place or an object.",
+  "script_sections": [
+    "hook",
+    "scene_direction",
+    "commentary",
+    "payoff"
+  ],
+  "allowed_rhythms": [
+    "hold",
+    "even"
+  ],
+  "writing_instruction": [
+    "This field is the whole of how to write this pattern. The section contract, the commentary length band and the write-for-the-ear rules are channel-level and live in the Content Researcher skill; everything below is what makes a script this pattern. CF-0565 wrote it for ExampleScience (the grill «Каналы ИИ и Наука», 2026-10-05: the channel's own pattern, «масштаб»), and it is admitted only where a channel lists it in `patterns.allowed_pattern_ids`.",
+    "The shape is one number made tangible. The source gives one measured quantity - how big, how far, how fast, how long, how many - and a number that size means nothing to the ear: forty trillion kilometres is a sound, not a distance. So the script shrinks or stretches the whole thing by ONE factor until the source's number lands on something the viewer already holds in the hand or in the day - a grapefruit, a grain of sand, a football pitch, the walk to the shop, a city they could name - and then follows that same factor out to where the comparison turns startling: if the Sun is a grapefruit in London, Earth is a grain of sand about ten metres away, Voyager 1 - the farthest thing ever built - is just under two kilometres down the road, and the nearest star is another grapefruit somewhere past Moscow (the arithmetic, with every input sourced: Wikipedia's Grapefruit gives the fruit «from 10 to 15 cm» across, and the 10 cm end is the one that keeps every result the smaller; a 10 cm grapefruit for a Sun 1,391,400 km across (Wikipedia's Sun) is a factor of about 1 in 13.9 billion; Earth's 149.6 million km becomes 10.8 m, Voyager's 25-odd billion km becomes about 1.8 km, and Proxima Centauri's 4.24 light-years - some 40 trillion km - becomes about 2,880 km, more than the 2,500 km from London to Moscow, so «past Moscow» understates it and may be said - and holds for any grapefruit in the page's range, the 15 cm end giving about 4,320 km. Writing this example the first time, «Voyager is past Moscow» came out of an intuition and was wrong by a factor of more than a thousand - which is why the arithmetic is a record and is recomputed). One quantity, one factor, one chain of familiar stand-ins. It is not a list of big numbers - several unrelated figures in a row is `list` - and it is not two things set against each other: the familiar object is not a second side of an axis, it is the ruler the one number is read on, so the shape is never `contrast` either.",
+    "The number comes from the source and from nowhere else. The quantity being scaled is the video's fact: it is `production_fact`, with its `source_url` and its verbatim quote, and the number the voice says is the number in that quote, in the quote's own unit and with the quote's own qualifier (estimated, about, at least, at its closest). Nothing is taken from memory, nothing is rounded up past what the source says, and an estimate is never promoted to a measurement. If the source gives no number, there is no scale video: reject the assignment in writing (`rotation/rotate.py reject`) rather than write the comparison around a figure that is not on the page. The rule is the factory's - no invented facts - and this pattern is where it is easiest to break, because a comparison sounds true whether or not its numbers are.",
+    "The comparison is a calculation, not an image, and every input to it is a sourced number. Write the arithmetic down before you write a sentence of it: the source's quantity; the reference it is scaled against - the real thing the stand-in replaces (the Sun's diameter, when the Sun becomes the grapefruit), in the same kind of measure as the quantity - also from a source, with its quote; the familiar stand-in's own size (a grapefruit ten to fifteen centimetres across - of a range the page gives, take the end that keeps the result the smaller - the walk from London to Moscow about two and a half thousand kilometres) - a familiar size is a measured fact like any other and needs a source line too, an encyclopedia entry is enough; the factor, stand-in over reference; and the result, quantity times factor. Round the result toward the less dramatic side and say «about»; a result that falls between two familiar places is said as the nearer of them that does not overstate it. If the result lands nowhere a viewer knows, change the stand-in, never the number. The record of that arithmetic is `script.scale` (the contract is `scale_footing` below), and its numbers have to be the ones the voice says.",
+    "The hook names the comparison, not the topic and not the bare number. 'Shrink the Sun to a grapefruit, and the nearest star is still past Moscow' works: it promises the familiar picture and the surprise in one line. 'Space is unimaginably big' does not work - it promises nothing a viewer can check - and neither does 'Proxima Centauri is 4.24 light-years away', which is the number the video exists to translate, said before anything has been done to it.",
+    "The fact's beat states the source's number once, plainly, in the source's unit and wording, before any scaling begins, so that `script.production_fact.beat_text` is a verbatim substring of that block (CF-0186; CF-0183 writes the field). Then the scaling goes step by step, one step a beat: set the stand-in in one sentence (the Sun becomes a grapefruit on a London street), place the near things with the same factor (Earth a grain of sand about ten metres away), and only then the far one. Every step is a frame the Video Editor can resolve - the familiar object, the street, the map of the two cities - so say the thing that can be photographed, not 'imagine how small that is'. A step that has no picture is a step to cut.",
+    "On the `hold` rhythm the stand-in is the held frame: the voice builds the comparison over one picture of the familiar object or place, and that is what the hold is for - the passage you dwell on longest should be the one where the stand-in is set. On `even` the steps follow one another a block each, and the scene direction names the stand-ins in order so the montage can move from object to object. Either way the cadence is drawn, not written towards: write the steps; the montage fits them to the band below.",
+    "The payoff comes back from the stand-in to the real thing: what the comparison means for the number the viewer heard at the beat - how far that really is, how long the light takes, how small the whole of it is - and it does not open a new comparison. Repeating the hook's words is not required: every video ends on the channel's end card (the user's decision of 2026-09-28, CF-0424)."
+  ],
+  "parameters": {
+    "block_count": {
+      "mode": "drawn",
+      "min": 8,
+      "max": 16,
+      "note": "CF-0565. A count because it is drawn: an order for one video whose length the channel already fixes, the same reason list, contrast and moment-breakdown give. Between moment-breakdown's 6-12 and list's 12-24: a scale video moves through a chain of stand-ins - the number, the stand-in, two or three near things, the far one, the way back - which is more pictures than one moment taken apart and fewer than an enumeration. The floor of 8 is one block per step of the shortest honest chain (fact, stand-in, near, far, payoff) with room to hold the stand-in; the ceiling of 16 is where a chain of comparisons starts to read as a list of them. No batch has shipped this pattern yet, so the band is a decision, not a measurement, and the first Science batches are what judge it."
+    },
+    "key_frame_hold_seconds": {
+      "mode": "drawn",
+      "min": 3.0,
+      "max": 7.0,
+      "note": "CF-0565. The hold on the stand-in - the frame the comparison is built over. Long enough for the voice to set the stand-in and place one thing on it (about one sentence at the channel's rate), shorter than moment-breakdown's 4.0-9.0 because the picture here is a familiar object rather than a moment to be taken apart, and a familiar object held for nine seconds is a still. The floor of 3.0 is half the ceiling and no more, so the `hold` rhythm has a window to draw in (patterns/rhythms.json hold.drawn_hold, max_share_of_band 0.5, CF-0300): on hold the draw is 3.0-3.5 s."
+    },
+    "opening_block": {
+      "mode": "drawn",
+      "choices": [
+        "hook_over_footage",
+        "cold_frame"
+      ],
+      "note": "CF-0565. hook_over_footage opens on the real thing at its real size with the comparison spoken over it; cold_frame shows the real thing alone for a beat before the hook makes it small, which is the pattern's natural opening and costs a beat of a tight budget - so both stay in the set."
+    },
+    "acceleration_to_payoff": {
+      "mode": "drawn",
+      "enabled_choices": [
+        true,
+        false
+      ],
+      "strength": {
+        "min": 0.1,
+        "max": 0.25
+      },
+      "note": "CF-0565. Mild when on: the chain of stand-ins moves outward toward the far one, and a light shortening of the blocks toward the payoff is the montage doing what the writing does. Kept below list's 0.2-0.4 because the stand-in frame has to stay readable to the end - a comparison the eye cannot hold is no comparison."
+    }
+  },
+  "original_contribution": {
+    "status": "defined",
+    "text": "The one number the source gives is carried by a single worked factor onto something the viewer already knows the size of: the fact is not said and left as a figure, it is translated into a distance, an object or a walk that the ear can hold, with every number in the translation taken from a source."
+  },
+  "scale_footing": {
+    "record": "script.scale",
+    "fields": {
+      "quantity": "{value, unit, quote}: the scaled number as the source gives it; `quote` is a verbatim part of the script's fact record (`fact.quote` or `fact.text`, copied from the candidate, never retyped) and contains the number.",
+      "reference": "{value, unit, quote, source_url}: the real thing the stand-in replaces (the Sun's diameter when the Sun becomes the grapefruit), one kind of measure with the quantity.",
+      "familiar": "{object, value, unit, quote, source_url}: the stand-in and its own size, sourced like any fact.",
+      "result": "{value, unit, said_as}: quantity / reference x familiar, in the familiar's kind of measure, and `said_as` the words the voice uses for it - a verbatim part of hook, commentary or payoff."
+    },
+    "rules": {
+      "arithmetic_tolerance": 0.15,
+      "never_overstate": true,
+      "note": "The stated result may sit at most 15 % from the recompute, and a number in said_as may not stand above the recompute by more than that: the rounding goes toward the less dramatic side. Every value has to be a number of its own quote. Units: mm, cm, m, km, au, light-year, s, min, h, day, year, g, kg, t, m/s, km/s, km/h (SCALE_UNITS in patterns/validate_patterns.py); a comparison in any other unit is not checkable yet and is refused rather than waved through."
+    },
+    "checked_by": {
+      "deterministic": "patterns/validate_patterns.py check_scale_footing / `validate_patterns.py check-scale <03-content-researcher.json>` (CF-0565): the record is present and whole, every value is in its quote, the quantity's quote is in `script.fact`, the result is recomputed and not overstated, said_as is spoken. Exit 1 on a finding.",
+      "judge": "The claim judge (agents/content-researcher/scripts/check_claims.py over shared/factrule/claim_judge.py, CF-0553): the reader lists the comparison as a checkable claim and the judge holds it to its declared footing - a comparison whose footing does not carry its numbers is struck (claim_not_enough), so that gate fails closed too. The source number itself is the video's fact and passes check_production_fact.py like any other.",
+      "wired_into_the_writer": true,
+      "note": "The deterministic check is built and tested in the root (tests/test_scale_footing.py) and runs at the Content Researcher's step 6 on every scale script: agents/content-researcher/scripts/check_scale.py is a wrapper over validate_patterns.check_scale_footing plus the comparison declared in claims[], as `check-pairs` is for contrast. A script that still fails after the one rewrite is skipped as `scale_unsupported` (stage `scripts`); the claim judge stays the second gate. CF-0673: the reference's and the familiar size's quotes stand on the pages of their `source_url`, read through the channel's door by shared/factrule/scale_support.py into `<batch>/01-scale-support.json`, which `claims.topics_of` appends to the topic's support_text (a number the page does not write gets no piece: change the stand-in); `numbers_in` reads numbers said in words, so a said_as written for the ear is held to `never_overstate` too."
+    }
+  },
+  "meme_layer": {
+    "allowed": false,
+    "reason": "CF-0565. The pattern is carried by one picture the comparison is built over - the stand-in - and the chain of stand-ins after it; a reaction meme is a picture that belongs to neither, and on the hold rhythm it would replace the very frame the voice is measuring the number against. The surprise of this pattern is the comparison landing, and a reaction face on top of it says the surprise instead of letting the picture show it. Refused on the shape, whatever a channel's switch says."
+  },
+  "sound_layer": {
+    "allowed": false,
+    "reason": "CF-0068 / CF-0565. A sound needs no block, so the stand-in frame would survive it - refused for the register instead: the comparison is arithmetic the viewer is asked to trust, and a whoosh or a vine boom on the far result turns a measured distance into a gag at exactly the moment it has to sound most like a measurement. The pattern lets the number land in silence under the voice."
+  },
+  "proof_layer": {
+    "allowed": true,
+    "reason": "CF-0071 / CF-0565. Allowed, and it belongs to this pattern more than to most: a comparison is only as good as the number it starts from, and the proof is that number read off its own page. The beat it sits on is the fact's beat - the block where the voice states the source's number before any scaling - and what goes on screen is the named source of that number (`script.production_fact.source_url`, CF-0186). Never on the stand-in frame the comparison is built over, which is the picture the pattern is made of, and never on the hook or the payoff; on the fact's beat and nowhere else."
+  }
+}

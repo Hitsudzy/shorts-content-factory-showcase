@@ -1,0 +1,42 @@
+.venv/
+__pycache__/
+models
+node_modules/
+out/
+.DS_Store
+*.mp4
+*.wav
+render/node_modules/
+render/public/job/
+.venv
+render/node_modules
+logs/
+# CF-0613: the render logs of a frozen batch are a fixture, not run output
+!tests/fixtures/frozen_batches/*/logs/
+# CF-0516 (2026-10-04): work/ агента - место каталогов ЗАДАЧ (cf0052-measure,
+# cf0130-frames, ...), а не роликов батча. 15.09 батч 2026-09-15T1034Z писал прямо
+# в агент, и воркер CF-0329 закоммитил 42 файла его work/<slug>/ (dtf-st-louis,
+# everyday-sorcery-2, widows-bay, spirerunner-fresh-dawn). Поэтому под work/
+# игнорируется всё, кроме каталогов задач work/cf<цифра>*/; слаг ролика батча
+# (любое другое имя) в git агента больше не попадёт. Блок стоит ДО поимённых
+# правил ниже: последнее совпавшее правило главнее, и они снова исключают свои
+# каталоги задач. Логи попыток батча (logs/<slug>-attempt-N.log) закрыты правилом
+# logs/ выше.
+work/*
+!work/cf[0-9]*/
+work/cf0052-measure/assets/
+work/cf0052-measure/out/
+work/cf0130-frames/
+
+# CF-0115 (2026-09-08): каталог под work/ заводит каждая задача, которая что-то
+# рендерит, и до сих пор их вносили сюда поимённо — список хронически отставал от
+# жизни (cf0116-sample, cf0117-sample, cf-render-now накопились за сутки).
+# Документы и мелкий json под work/ отслеживаются намеренно (69 файлов: CHECKLIST,
+# FINDINGS, FULL_RUN, скрипты замеров), поэтому игнорируются артефакты по виду —
+# кадры и целиком сгенерированные каталоги рендер-джобов, — а не папки задач.
+work/**/*.png
+work/cf-render-now/
+
+# Хвост от воркеров auto-dev (как в footage-indexer, 251992d)
+.claude/worktrees/
+render/jobs/

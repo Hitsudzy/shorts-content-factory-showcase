@@ -1,0 +1,17 @@
+dist/
+coverage/
+playwright-report/
+test-results/
+package-lock.json
+.claude/
+# Документы процесса (задачи, дорожная карта, дизайн) — не код, их не форматируем.
+tasks/
+docs/
+ROADMAP.md
+CHANGELOG.md
+blob-report/
+# CC-0004: производные контракта API (npm run api:types) — как сгенерированы, так и лежат.
+src/api/*.gen.ts
+src/api/openapi.snapshot.json
+# CC-0073: service worker MSW для тренировки (`npx msw init public/`) — как сгенерирован.
+public/mockServiceWorker.js

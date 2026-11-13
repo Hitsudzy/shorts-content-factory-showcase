@@ -1,0 +1,71 @@
+{
+  "pattern_id": "demo",
+  "display_name": "Demo",
+  "summary": "The news is the hook and the tool is the footage: what was released or changed, said with its fact, then the tool itself doing that thing on screen in the factory's own recording, step by step, until the viewer has seen what the news means in use.",
+  "script_sections": [
+    "hook",
+    "scene_direction",
+    "commentary",
+    "payoff"
+  ],
+  "allowed_rhythms": [
+    "even",
+    "hold"
+  ],
+  "writing_instruction": [
+    "This field is the whole of how to write this pattern. The section contract, the commentary length band and the write-for-the-ear rules are channel-level and live in the Content Researcher skill; everything below is what makes a script this pattern. CF-0567 wrote it for ExampleTech (the grill «Каналы ИИ и Наука», 2026-10-05/06, Q18: the channel's own pattern, «демо»), and it is admitted only where a channel lists it in `patterns.allowed_pattern_ids`.",
+    "The shape is a news story shown working. The occasion is a release or a change - a model, a feature, a product, a price - and the picture is not a picture of the news but of the thing itself in use: the factory's own screen recording of the tool on a public page, doing what the news says it now does. The viewer leaves having seen the tool do it, not having heard that it can. A topic whose tool cannot be recorded on a public page with no sign-in (channels/example-tech/footage-origin.json `capture_hosts`) is not a demo: write it as another pattern of the channel, or reject the assignment in writing (`rotation/rotate.py reject`) rather than describing a tool nobody sees.",
+    "The hook is the news with its fact: what was released or changed, said with the number, the price or the date the source gives (the shape: '<the company> just <released / changed> <the tool> - <its number, price or date> - and here it is <doing the thing>'). It promises the thing on screen in the next seconds. It is not the topic ('AI is getting faster'), and it is not the demo's result told in advance - the result is what the steps arrive at.",
+    "The fact's beat - the hook's own block, or the one right after it - states the video's fact once, plainly, in the source's own words and unit, so that `script.production_fact.beat_text` is a verbatim substring of that block (CF-0186; CF-0183 writes the field). A vendor's benchmark is said with whose number it is ('according to Google'), as the channel's fact rule requires. The fact is the source's; the recording shows the tool working and is never offered as the measurement of the fact - a demo shows that the thing does something, not that it does it at the number the vendor states.",
+    "Then the tool works, one step a beat: the page it lives on, the input given to it, what it does, the result it returns. Every step is a frame the Video Editor can resolve from the recording - name in the scene direction what is on screen at that step (the prompt box with the words typed, the generated image, the answer's first line, the slider moved) - and say in the commentary what the viewer is looking at and why it matters, never read the interface aloud. Three to five steps is the honest length of a demo inside a Short; one step is a screenshot, eight is a tutorial.",
+    "The screen recording is the footage under the explanation, from the first block to the last. A clip from the vendor's official channel (a keynote, the company's own demo) may stand in once as a short proof quote - the vendor saying or showing the thing in its own words - at most `proof_quotes.max_seconds_per_quote` long (footage-origin.json), and never as the base the explanation is laid over. A demo with no recording of its own is a re-cut of the vendor's video, and the pattern refuses it.",
+    "On the `hold` rhythm the result is the held frame: the voice works over the one screen where the tool has done the thing - the answer, the image, the finished output - long enough for the eye to read it, and the steps before it are short. On `even` the steps follow one another a block each, at the pace the tool keeps on screen. Either way the cadence is drawn, not written towards: write the steps; the montage fits them to the band below.",
+    "The payoff says what the shown result means for the viewer - what they can now do, what it costs them, where the limit is that the recording itself showed - and it does not open a new demo or promise one. Repeating the hook's words is not required: every video ends on the channel's end card (the user's decision of 2026-09-28, CF-0424).",
+    "CF-0689 (the user's decision of 12.10): on a channel whose footage-origin document has the `own_graphic` origin (ExampleTech), the picture may stand on the factory's own graphics entirely - drawn in Remotion from this script's facts and nothing else (a spec card, a comparison, a price and date, a benchmark with its «according to X» line, a timeline, a how-it-works diagram; shared/own_graphic.py `TEMPLATES`). Order each in the script's `graphics[]`, place it on its words with a `visual_anchors[]` entry that carries its `graphic_id`, and declare every value on it as a claim with `where: \"graphic:<graphic_id>\"` standing on a verbatim quote - a graphic carries no number, name or date the topic's text does not, and no words of its own. In «демо» the recording stays the footage the steps are shown on (`demo_own_capture`); a graphic carries the fact's number, price or date beside it, never the tool's working. On a channel without that origin nothing here changes."
+  ],
+  "parameters": {
+    "block_count": {
+      "mode": "drawn",
+      "min": 8,
+      "max": 14,
+      "note": "CF-0567. A count because it is drawn: an order for one video whose length the channel already fixes, the same reason list, contrast, scale and moment-breakdown give. A demo moves through the hook, the fact's beat, three to five steps of the tool working, the held result and the payoff - with room for a step to take two blocks and for one proof quote - which is more pictures than one moment taken apart (moment-breakdown 6-12) and fewer than an enumeration (list 12-24). The ceiling sits under scale's 16: past fourteen blocks the steps of one tool start to read as a tutorial. No batch has shipped this pattern yet, so the band is a decision, not a measurement, and the first Tech batches are what judge it."
+    },
+    "key_frame_hold_seconds": {
+      "mode": "drawn",
+      "min": 3.5,
+      "max": 8.0,
+      "note": "CF-0567. The hold on the result frame - the screen where the tool has done the thing. Long enough to read an interface: an answer's first line or a short output of 40-60 characters at the 12-15 characters a second the proof layer reads at is 3.5-5 seconds, and a generated image with its prompt beside it wants more. The floor of 3.5 sits above scale's 3.0 because a UI carries small text where a familiar object carries none, and the ceiling of 8.0 under moment-breakdown's 9.0 because a screen held longer than that is a screenshot, not a demo. The floor is under half the ceiling, so the `hold` rhythm has a window to draw in (patterns/rhythms.json hold.drawn_hold, max_share_of_band 0.5, CF-0300): on hold the draw is 3.5-4.0 s."
+    },
+    "opening_block": {
+      "mode": "drawn",
+      "choices": [
+        "hook_over_footage"
+      ],
+      "note": "CF-0567. One choice: the pattern opens on the news as the hook (writing_instruction), spoken over the first frame of the recording - the tool's page before anything is done to it. cold_frame would show the result before the news has said what it is, which gives the payoff away in the first second; count_card and side_by_side belong to list and contrast."
+    },
+    "acceleration_to_payoff": {
+      "mode": "drawn",
+      "enabled_choices": [
+        false
+      ],
+      "strength": null,
+      "note": "CF-0567. Off. The steps of a demo are paced by what the tool does on screen, and an accelerating tail shortens exactly the last steps - the ones that arrive at the result the payoff stands on, where the interface has to be read. A demo that hurries its result is a demo the viewer did not see."
+    }
+  },
+  "original_contribution": {
+    "status": "defined",
+    "text": "The footage is the factory's own recording of the tool doing the thing the news is about: the story says what was released, and the video shows it working on screen, step by step, with the one fact from the primary source said over it - not the vendor's own demo re-cut."
+  },
+  "meme_layer": {
+    "allowed": false,
+    "reason": "CF-0067 / CF-0567. A demo is read on screen: every block is a frame of the interface the viewer is reading, and a reaction meme replaces the very frame the voice is explaining - on the hold rhythm it would replace the result itself. The surprise of this pattern is the tool doing the thing, and a reaction face on top of it says the surprise instead of letting the recording show it. Refused on the shape, whatever a channel's switch says."
+  },
+  "sound_layer": {
+    "allowed": false,
+    "reason": "CF-0068 / CF-0567. A sound needs no block, so the recording would survive it - refused for the register instead: the viewer is asked to trust that the tool on screen really did what the voice says, and a whoosh or a vine boom on the result turns a working tool into a gag at exactly the moment it has to look like evidence. The pattern lets the result land under the voice alone."
+  },
+  "proof_layer": {
+    "allowed": true,
+    "reason": "CF-0071 / CF-0567. Allowed, and the channel's fact is made for it (grill Q17: its number, price or date on screen): the beat it sits on is the fact's beat - the block where the voice says the release's number, price or date - and what goes on screen is that number with its named source (`script.production_fact.source_url`, CF-0186). Never over the result frame, which is the picture the pattern is made of and has to stay readable, and never on the hook or the payoff; on the fact's beat and nowhere else."
+  }
+}

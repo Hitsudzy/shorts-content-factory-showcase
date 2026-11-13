@@ -1,0 +1,6 @@
+.venv
+__pycache__/
+.DS_Store
+
+# хвост от воркеров auto-dev, как в корневом .gitignore
+.claude/worktrees/

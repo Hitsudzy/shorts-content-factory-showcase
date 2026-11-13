@@ -1,0 +1,22 @@
+Shorts Content Factory - third-party notices
+
+Fonts
+-----
+The following fonts are bundled in agents/video-editor/render/public/fonts and
+are licensed under the SIL Open Font License, Version 1.1
+(https://openfontlicense.org):
+
+  * IBM Plex Mono (Regular, Bold)
+    Copyright (c) 2017 IBM Corp. with Reserved Font Name "Plex"
+  * Courier Prime (Regular, Bold)
+    Copyright 2015 The Courier Prime Project Authors
+
+These font files are redistributed unmodified. The OFL permits their use,
+study, modification and redistribution provided the copyright notice and
+licence are preserved and the fonts are not sold by themselves.
+
+The full licence texts are next to the fonts (OFL-ibmplexmono.txt,
+OFL-courierprime.txt).
+
+Other dependencies are used under their own licences as declared in
+core/requirements.txt, agents/*/requirements.txt and the package.json files.

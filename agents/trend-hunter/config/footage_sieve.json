@@ -1,0 +1,53 @@
+{
+  "_task": "CF-0309",
+  "_what": "The words and the channels that say an upload is a talk *about* the work - a news wrap-up, a press interview, an opinion piece - rather than footage of it. The shape rules (a title that names no work, a title made of hashtags, a title that claims 'official' on a channel that is not) live in scripts/footage_sieve.py, because they are shapes and not words; the lists here grow batch to batch, which is config work.",
+  "_read_by": "agents/trend-hunter/scripts/footage_sieve.py",
+  "_rule": "An official channel is never sieved by any of this - the user's decision of 2026-09-20 (config/footage_origin.json `_rule`) holds here too: 'RENNICK S4 | QUILL S1 - Crossover Clip' (Prime Video Canada) was refused by the indexer for burned-in credits in 65 % of its shots, and no word in its title says so. That one is the frame judge's to catch, not this sieve's. CF-0924: `credit_phrases` is the one exception - read for every channel, official included, because a studio uploads all its films and 'official' never says which work a cut is of.",
+  "_discipline": "Every pattern carries `seen_in` - a real upload out of a real pool, with the indexer's verdict on it. A word nobody can point at in the data does not go in. The whole set was measured on the 25 labelled candidates of tests/fixtures/footage_sieve_1541z.json (the batch of 2026-09-21T1541Z, plus two ids named by CF-0297/CF-0299): the table is in tasks/CF-0309-*.md, and tests/test_footage_sieve.py holds it to those numbers. The set is small - 9 good against 16 bad - so a rule is in here for its mechanism, never for its count.",
+
+  "news_markers": [
+    {
+      "pattern": "\\b(trailer|teaser|news|update[sd]?|review(s|ed)?|rumou?rs?|leaks?|first look|release date|explained|breakdown|(and|&)\\s+more)\\b",
+      "what": "what an item of a news round-up ends with",
+      "why": "a channel's weekly wrap names each work it touches and what happened to it; three such items in one title is a news programme, and the shots under it are other people's trailers",
+      "seen_in": {"video_id": "eDQ2uvhvV8E", "channel_title": "BAMTube Movies", "title": "SILENT TIDE 2 UPDATE, CONTROL RESONANT REVIEWS, NIGHTWATCH KNIGHTFALL 2 TRAILER, HELLDIVERS MOVIE NEWS", "batch": "2026-09-21T1541Z", "verdict": "source_foreign"}
+    }
+  ],
+
+  "opinion_words": [
+    {
+      "code": "opinion",
+      "pattern": "\\b(review(s|ed)?|rumou?rs?|leaks?|debunked|theor(y|ies)|ranked|everything we know|updates?|news|why)\\b",
+      "why": "the title of an argument about the work, not the label of a cut of it. 'Why' is in and 'how' is deliberately out: 'How They Shot It' is the standard title of an honest making-of (measured: 'how' took 0 of 16 bad candidates and would have been a rule with no data behind it)",
+      "seen_in": {"video_id": "0q-4iH9QwRM", "channel_title": "ssc movies", "title": "In Silent Tide (2013) Why Brad Pitt's Smart Zombie Survival Rule Makes Total Sense", "batch": "2026-09-21T1541Z", "verdict": "source_burned_text"}
+    }
+  ],
+
+  "press_channels": [
+    {
+      "pattern": "collider",
+      "what": "film press outlet - its uploads are its own studio interviews and podcast recordings",
+      "seen_in": {"video_id": "TVdIcvz0kOc", "channel_title": "Collider Ladies Night", "title": "Harbourlights Deleted Scene: Zoe Almost Had an Animated Backstory!", "batch": "2026-09-21T1541Z", "verdict": "source_foreign"}
+    },
+    {
+      "pattern": "etalk",
+      "what": "entertainment news show - its uploads are its own junket interviews",
+      "seen_in": {"video_id": "YhEbYt2Ovwo", "channel_title": "Etalk", "title": "Maria Sten says 'Rennick' spinoff 'Quill' will dive deeper into her \"trauma\" | Interview", "batch": "2026-09-21T1541Z", "verdict": "source_foreign"}
+    }
+  ],
+
+  "credit_phrases": [
+    {
+      "pattern": "\\bfrom\\s+(?:[\\w']+\\s+){0,3}?(?:producers?|directors?|creators?|makers?|writers?|filmmakers?|studios?|team)\\s+(?:of|behind)(?:\\s+the)?",
+      "what": "the English marketing credit - 'From the producer of X', 'From Zach Cregger, director of X'",
+      "why": "a trailer credits its makers by the works they are known for; a work named after this formula is the credit of another film, not the subject of the upload (CF-0924). The sighting below names its own work first and credits others - the rule keeps it, which is the point of reading only the namings right after the formula",
+      "seen_in": {"video_id": "oBWrb8HTU44", "channel_title": "Example Pictures Entertainment", "title": "Resident Dread – Official Teaser Trailer. From Zach Cregger, director of Weapons and Barbarian.", "batch": "example-film/2026-10-27T0836Z", "verdict": "kept - names its own work first"}
+    },
+    {
+      "pattern": "\\bdari\\s+(?:[\\w']+\\s+){0,3}?(?:produser|sutradara|pembuat|kreator)(?:\\s+film)?",
+      "what": "the Indonesian credit - 'dari Produser X' (from the producer of X)",
+      "why": "the same formula in Indonesian; the upload is Karōshi's trailer, Jon Marrow is its producer's credit (CF-0924)",
+      "seen_in": {"video_id": "9ia-5fCvqDI", "channel_title": "The Opinion of Generations ", "title": "Karōshi Rilis Trailer Perdana, Film Baru dari Produser Jon Marrow", "batch": "example-film/2026-11-08T1117Z", "verdict": "wrong_work_footage (acceptance of jQHoAsDcjVU's Short, the same film)"}
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+# secrets
+.env
+.env.*
+!.env.example
+*cooki[e]s*
+*.pem
+*.key
+client_secret*
+token*.json
+*oauth-token*
+
+# environments and build output
+.venv/
+venv/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
+
+# media and runtime data
+media/
+*.mp4
+*.mov
+*.wav
+*.mp3
+core/pipeline/
+core/shared/footage/
+!command-center/tests/e2e/assets/*.mp4

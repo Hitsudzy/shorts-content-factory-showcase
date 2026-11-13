@@ -1,0 +1,18 @@
+{
+  "channel_id": "example-film",
+  "channel_id_note": "Matches channels/example-film.json, which points here via its `stance` field.",
+  "decided_by": {
+    "task": null,
+    "date": null,
+    "note": "Nobody has decided this channel's position yet: the file is the empty skeleton of the factory's template (shared/channel_template/stance.json, CC-0008), created from the command center on 2026-01-01."
+  },
+  "authorship": "",
+  "position": {
+    "thesis": "",
+    "thesis_note": "What every video of the channel does, in one sentence - the channel's frame. Written by a person (a grill), applied by the machine to every video."
+  },
+  "left_open": [
+    "The whole position: the frame, what is out of it, the voice, what the fact is, the refusal, the declaration. A channel with a pipeline needs every part its consumers read (tests/test_channel_stance.py REQUIRED_TOP_LEVEL); a channel without one does not yet."
+  ],
+  "note": "CC-0008: the template's skeleton. Fill it in from the command center's editor (the «Позиция» part of the channel)."
+}

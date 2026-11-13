@@ -1,0 +1,64 @@
+{
+  "pattern_id": "moment-breakdown",
+  "display_name": "One moment, taken apart",
+  "summary": "The script stops on a single moment and works over it instead of moving along the story.",
+
+  "script_sections": ["hook", "scene_direction", "commentary", "payoff"],
+
+  "allowed_rhythms": ["hold", "even"],
+
+  "writing_instruction": [
+    "This field is the whole of how to write this pattern. The section contract, the commentary length band and the write-for-the-ear rules are channel-level and live in the Content Researcher skill; everything below is what makes a script this pattern.",
+    "The shape is one moment under a magnifying glass. Not a survey of the story - one shot, one line, one reveal, one decision, and the whole script is spent on it. The test for whether you have the pattern: if you removed every sentence that is not about that single moment, would there be a script left? If the answer is no, you are writing an explanation, not a breakdown.",
+    "The hook names the moment and promises the thing the viewer missed inside it. The promise has to be specific enough to be falsifiable - 'watch his hands in the doorway' rather than 'there is more going on here'.",
+    "The commentary makes two or three passes over the same moment, and the passes are ordered so each one reframes the last: what happens, then what it echoes or what it means, then the fact behind it. This is the reason the pattern can hold a frame - the picture is not required to keep up, because the picture is not changing. Do not let the passes turn into new subjects; a pass that introduces a second moment has left the pattern.",
+    "The last pass is the fact, and it is a pass and not an aside. Every script this channel writes carries exactly one concrete fact the story does not carry, of any kind (CF-0181, CF-0439); here it is the final crossing over the same moment - the takes it needed, what the scene cost, who was meant to play it, what the actor said about it on record - and it is last because it is the reframe the earlier passes are built to be reframed by: the viewer has been told what the moment is and what it echoes, and then is told the fact behind it, which no retelling of the story carries. The sentences in which the fact is spoken are copied verbatim into `script.production_fact.beat_text` (CF-0183, CF-0186), so write that pass as sentences that stand on their own - the on-screen line is drawn where that text points, and the proof layer, when it fires, takes that pass's block and never the key frame.",
+    "That is also what decides which frame you hold. The frame named for the hold is the frame the fact is about, because the last pass is about that frame - hold the shot the fact names, not a neighbouring one that merely looks good on a long hold. The two requirements meet: a frame that can survive several seconds on screen and a frame the fact has something to say about. When they cannot be made the same frame, the moment is the wrong moment for this pattern rather than the fact being the wrong fact - pick the moment the fact belongs to. If the topic has no fact at all, it never reaches this pattern: the channel's refusal rule drops it at step 2 (`production_fact_refusal` in the channel config, CF-0185) rather than letting three passes of retelling be written.",
+    "The scene direction must ask for one frame that can survive sitting on screen for several seconds: a face doing something, a composition with detail in it, movement inside the frame. A wide establishing shot with nothing happening in it dies on a long hold. Name that frame explicitly and separately from the supporting anchors, because it is the frame the hold parameter is about.",
+    "The payoff resolves the promise made in the hook - says what the missed thing was, or says why it stays ambiguous - and says why it matters. Repeating the hook's words is not required: every video ends on the channel's end card, which breaks the replay loop in any case (the user's decision of 2026-09-28, CF-0424).",
+    "On the even rhythm the pattern still works but gives up its strongest move: the commentary is the same, the montage just does not stop. Write it identically; the difference belongs to Video Editor."
+  ],
+
+  "parameters": {
+    "block_count": {
+      "mode": "drawn",
+      "min": 6,
+      "max": 12,
+      "note": "Deliberately far below the 12-33 blocks the baseline pattern was observed at: fewer, longer blocks are the visible half of this pattern. The floor of 6 is where a 35-60 second video still has enough picture changes not to read as a slideshow - which says out loud that this floor is a statement about length as much as about cadence, and that is the defect CF-0310 removed from the baseline pattern by restating its band as block_rate_per_minute (15.39-47.88, the same corpus the 12-33 came from). This band stays a count because it is drawn: it is an order for one video whose length the channel already fixes, and draw_order, the capacity gate and fit_order_to_voice all want a number of blocks. Converting it is a separate decision with its own measurement - and until it is made, nothing refuses a video for falling under this floor (CF-0310 measured that doing so would have rejected three real layouts, one of them the material the user rated highest)."
+    },
+    "key_frame_hold_seconds": {
+      "mode": "drawn",
+      "min": 4.0,
+      "max": 9.0,
+      "note": "The hold on the one key frame, not the average block. The floor sits above the longest block observed in any undegraded video of the current form (7.52s is the record, but that was a typographic fallback; clean motion videos top out at 3.92s), so a drawn value here is always longer than anything the baseline form produces by accident - which is what makes the pattern legible in the first seconds."
+    },
+    "opening_block": {
+      "mode": "drawn",
+      "choices": ["cold_frame", "hook_over_footage"],
+      "note": "cold_frame is the pattern's natural opening - the moment shown before it is described - but it costs a beat of a tight duration budget, so hook_over_footage stays in the set rather than being designed out."
+    },
+    "acceleration_to_payoff": {
+      "mode": "drawn",
+      "enabled_choices": [true, false],
+      "strength": { "min": 0.15, "max": 0.35 },
+      "note": "Mild when on: this pattern's effect comes from stillness, and a hard accelerating tail fights it. Strength is a fraction by which block length shortens toward the payoff; CF-0041 defines the curve."
+    }
+  },
+
+  "original_contribution": {
+    "status": "defined",
+    "text": "Holds one frame and says what the story does not: the last pass over the moment is the one fact behind it - the takes, the cost, who was meant to be in it, what was said about it on record - which the written story never carries."
+  },
+  "meme_layer": {
+    "allowed": true,
+    "reason": "CF-0067. Every block clears the 3.0s floor (hold band 4.0-9.0s), so this is the pattern where M2 never bites and M1 does the choosing: the reaction goes to a block whose anchor did not resolve before it goes anywhere else. Tolerated because a breakdown runs on the moment's own footage and the reaction is the analyst's face after the beat - it belongs on the step after the moment, not on the key frame the breakdown is about, which is a picture nothing may replace. The writer places the beat accordingly; the placement rule cannot tell a key frame from a step and does not try."
+  },
+  "sound_layer": {
+    "allowed": true,
+    "reason": "CF-0068. A breakdown runs on the moment's own footage, muted under the voice, and a sound is the one reaction insert that leaves that footage entirely alone: the key frame the breakdown is about stays on screen while the punctuation plays. Tolerated on the step after the moment - the analyst's reaction, as with the meme - and the writer places the beat there; the sound has no M1 because it repairs no frame, so it goes exactly where the words are. The 4.0-9.0 s hold band means the moment's block is long and a sound inside it reads as a single mark on a held picture, which is the intended effect and the reason the ceiling is 1.5 s."
+  },
+  "proof_layer": {
+    "allowed": true,
+    "reason": "CF-0071. Allowed. Every block clears the 3.0 s floor (hold band 4.0-9.0 s), so the reading half of placement is what decides, and a 72-character headline at 12 cps (6.0 s) fits most blocks. The breakdown runs on the moment's own footage, and the pass where the voice says the fact behind the moment is the step a document belongs on: what goes on screen is the named source of that fact (`script.production_fact.source_url`, CF-0186), which is the fact read instead of asserted - this channel owes every fact a source, and the proof layer is how the source reaches the screen rather than resting on our word (CF-0181). The proof takes that step's block, never the key frame the breakdown is about, which is a picture nothing may replace - the same line the meme and the sound draw above. The pattern's contribution is the held moment plus the fact behind it, so the document is that contribution's own source shown whole for one step, and the footage comes back for the rest. The writer places the fact it wants proved on a pass, not on the key frame; on the fact's beat and nowhere else, never on the hook or the payoff."
+  }
+}
